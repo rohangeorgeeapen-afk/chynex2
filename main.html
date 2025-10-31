@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chynex - Human-Centered Bionics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* --- Seamless Fading & Gradient Blur Edges --- */
+        /* 1. VIGNETTE (on HTML) */
+        html::before,
+        html::after {
+            content: '';
+            position: fixed;
+            left: 0;
+            right: 0;
+            z-index: 60; /* Above content (50), below header (70) */
+            height: 150px;
+            pointer-events: none;
+        }
+        
+        html::before {
+            top: 0;
+            background: linear-gradient(to bottom, #000 0%, transparent 100%);
+        }
+
+        html::after {
+            bottom: 0;
+            background: linear-gradient(to top, #000 0%, transparent 100%);
+            /* --- New: Added transition for smooth fade-out --- */
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* --- REMOVED: 2. GRADIENT BLUR (on BODY) --- */
+        /* All 'body::before' and 'body::after' rules for blur have been removed. */
+
+
+        /* --- New: Rules to hide bottom effects when at page bottom --- */
+        /* --- MODIFIED: Removed 'body.at-page-bottom::after' --- */
+        body.at-page-bottom + html::after {
+            opacity: 0;
+        }
+        
+        /* --- END Seamless Edges --- */
+
+
+        body {
+            font-family: 'Charter', 'Bitstream Charter', 'Sitka Text', Cambria, serif;
+            background-color: #000;
+            color: #d4d4d4;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- New Header Bar --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 8px 30px; 
+            z-index: 70; 
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
+            background-color: #000;
+        }
+
+        .main-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; 
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, 
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 20%,
+                rgba(255, 255, 255, 0.5) 50%,
+                rgba(255, 255, 255, 0.3) 80%,
+                rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        .main-header.header-visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .header-logo {
+            width: 110px; 
+            height: auto;
+            filter: invert(1);
+            vertical-align: middle; 
+        }
+        /* --- End New Header Bar --- */
+
+        .hero {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 30px;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .hero.fade-out {
+            display: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            width: 100%;
+        }
+
+        .hero-logo {
+            width: 180px;
+            height: auto;
+            filter: invert(1);
+            will-change: transform, opacity, filter;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 50;
+            background-color: #000;
+            margin-top: 100vh;
+        }
+
+        .section {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 70px 30px;
+            position: relative;
+        }
+
+        .section:last-of-type {
+        }
+
+        .content {
+            max-width: 720px;
+            font-size: 1.75rem;
+            font-weight: 400;
+            text-align: left;
+            letter-spacing: 0.01em;
+        }
+
+        /* --- MODIFIED: Scoped scroll-zoom effect to '.content p' --- */
+        .content p {
+            margin-bottom: 1.2em;
+            line-height: 1.85;
+            /* --- NEW: Added properties for scroll-zoom effect --- */
+            transform: scale(0.65);
+            opacity: 0.1;
+            will-change: transform, opacity;
+        }
+
+        .content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .emphasis {
+            color: #ffffff;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        .soft-emphasis {
+            font-style: italic;
+            color: #e8e8e0;
+        }
+
+        strong {
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.1em;
+            letter-spacing: 0.01em;
+        }
+
+        .pause {
+            color: #ffffff;
+            letter-spacing: 0.03em;
+        }
+
+        .reflective {
+            color: #b8b8b8;
+        }
+
+        .footer-section {
+            min-height: 45vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 70px 30px; /* Increased padding */
+        }
+
+        .footer-content {
+            text-align: left; 
+            font-size: 1.1rem; 
+            line-height: 1.8;
+            color: #b8b8b8;
+            letter-spacing: 0.02em; 
+            width: 100%; 
+            max-width: 720px; /* Match the content width */
+        }
+
+        /* --- REMOVED: Small logo for footer --- */
+        /*
+        .footer-logo-small {
+            width: 90px;
+            height: auto;
+            filter: invert(1);
+            margin-bottom: 30px; 
+        }
+        */
+
+        .founder-name {
+            font-size: 1.4rem; 
+            color: #ffffff;
+            font-weight: 500;
+            margin-bottom: 0.25em; /* Reduced spacing */
+            letter-spacing: 0.01em; 
+        }
+
+        .founder-title {
+            font-size: 1.1rem; 
+            color: #d4d4d4;
+            margin-bottom: 0.25em; /* Reduced spacing */
+        }
+
+        /* NEW: Container for links */
+        .footer-links-container {
+             margin-top: 0.25em; /* Reduced spacing */
+        }
+
+        /* Renamed from .footer-email */
+        .footer-link {
+            font-size: 1.2rem; 
+            color: #ffffff;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            transition: border-color 0.3s ease;
+            /* --- NEW: Stack the links --- */
+            display: block;
+            margin-bottom: 0.25em; /* Add space between stacked links */
+            width: fit-content; /* Make underline fit the text */
+        }
+        
+        /* --- REMOVED: Horizontal spacing rule --- */
+        /*
+        .footer-link + .footer-link {
+            margin-left: 1.5em;
+        }
+        */
+
+        .footer-link:hover {
+            border-bottom-color: #ffffff;
+        }
+
+        /* --- NEW: Copyright text style --- */
+        .copyright-text {
+            color: #aaa;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            margin-top: 1.5em; /* Reduced spacing */
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                height: 100vh;
+            }
+
+            .hero-logo {
+                width: 200px;
+            }
+
+            .section {
+                min-height: 75vh;
+                padding: 50px 20px;
+            }
+
+            .content {
+                font-size: 1.35rem;
+            }
+
+            .footer-section {
+                min-height: 40vh;
+                padding: 50px 20px; /* Increased padding */
+            }
+
+            .footer-content {
+                max-width: 100%; 
+            }
+
+            .founder-name {
+                font-size: 1.2rem;
+            }
+
+            .founder-title {
+                font-size: 1rem;
+            }
+        }
+        
+        .section:not(:last-of-type)::after {
+            content: '';
+            position: absolute;
+            bottom: 0; 
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, 
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 20%,
+                rgba(255, 255, 255, 0.5) 50%,
+                rgba(255, 255, 255, 0.3) 80%,
+                rgba(255, 255, 255, 0) 100%);
+            opacity: 0.30; 
+            pointer-events: none;
+            z-index: 55; 
+        }
+
+        .footer-section::before {
+            content: '';
+            position: absolute;
+            top: 0; 
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, 
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 20%,
+                rgba(255, 255, 255, 0.5) 50%,
+                rgba(255, 255, 255, 0.3) 80%,
+                rgba(255, 255, 255, 0) 100%);
+            opacity: 0.30; 
+            pointer-events: none;
+            z-index: 55; 
+        }
+</style>
+</head>
+<body>
+    <!-- New Header Bar HTML -->
+    <header id="main-header" class="main-header">
+        <img src="chynex_logo_white.png" 
+             alt="ChyneX Logo" 
+             class="header-logo"
+             onerror="this.src='https://placehold.co/110x110/000000/FFFFFF?text=ChyneX'; this.onerror=null;">
+    </header>
+
+    <div class="hero" id="hero">
+        <div class="hero-content">
+            <img src="chynex_logo_white.png" 
+                 alt="ChyneX Logo" 
+                 class="hero-logo" 
+                 id="heroLogo"
+                 onerror="this.src='https.placehold.co/180x180/000000/FFFFFF?text=ChyneX'; this.onerror=null;"
+            >
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="section">
+            <div class="content">
+                <p><span class="emphasis">Hands are the most precious gift</span> to a person. Imagine someone who has spent decades doing everything with their hands. <span class="soft-emphasis">Every tender gesture, every careful task, every creative expression</span> depended on their hands. They learned to write with them. They learned to <span class="emphasis">love and create</span> with them.</p>
+                <p><span class="pause">Then in an instant, it's gone.</span></p>
+                <p>And what does the world offer to them? <span class="emphasis">A mechanical device that makes noise and feels bulky.</span> The experience is like using a typewriter after a lifetime with a laptop.</p>
+                <p class="reflective">We believe it is time to offer something people can truly adapt to. Something that remembers what it means to be human.</p>
+                <p><span class="pause">There is a better way.</span></p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="content">
+                <p>We are working to build bionics that feel so natural, <span class="emphasis">you will forget you lost a body part.</span> Our work is about creating things that do not exist yet, always searching for new solutions and learning from each step.</p>
+                <p>We are developing technology to make human limbs and even humanoids possible. The same vision guides both efforts. <span class="emphasis">Movement should feel natural, intuitive, and alive.</span></p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="content">
+                <p><span class="soft-emphasis">Holding a loved one. Eating without help. Dressing yourself. Touching your face without thinking.</span></p>
+                <p>These experiences are not just special moments. <span class="emphasis">This is life.</span> It is an extension of you that never feels separate from who you are.</p>
+                <p><span class="pause">We want to give you back your life and we're working on it.</span></p>
+                <p><strong>This is our promise.</strong></p>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <div class="footer-content">
+                <!-- --- REMOVED: footer logo --- -->
+                
+                <div class="founder-name">Rohan George</div>
+                <div class="founder-title">Founder, ChyneX</div>
+
+                <!-- NEW: Link container for better spacing control -->
+                <div class="footer-links-container">
+                    <a href="mailto:rohan@chynex.com" class="footer-link">rohan@chynex.com</a>
+                    <a href="https://www.linkedin.com/in/rohaneapen/" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn</a>
+                </div>
+
+                <!-- --- NEW: Added copyright text --- -->
+                <p class="copyright-text">© 2025 ChyneX. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const hero = document.getElementById('hero');
+        const heroLogo = document.getElementById('heroLogo');
+        const header = document.getElementById('main-header'); // Get the new header
+        // --- MODIFIED: Selector is now specific to '.content p' ---
+        const paragraphs = document.querySelectorAll('.content p');
+
+        function easeOutQuad(t) {
+            return 1 - (1 - t) * (1 - t);
+        }
+
+        // --- NEW: Easing functions from the example file ---
+        function easeOutQuart(t) {
+            return 1 - Math.pow(1 - t, 4);
+        }
+
+        function easeOutCubic(t) {
+            return 1 - Math.pow(1 - t, 3);
+        }
+
+        function updateScroll() {
+            const scrollY = window.scrollY;
+            const viewportHeight = window.innerHeight;
+            const fadeDistance = viewportHeight * 0.45;
+
+            const scrollProgress = Math.min(scrollY / fadeDistance, 1);
+
+            const zoomDistance = viewportHeight;
+            const zoomProgress = Math.min(scrollY / zoomDistance, 1);
+            const logoScale = 2 + (zoomProgress * 6);
+
+            const easeProgress = easeOutQuad(scrollProgress);
+            const logoOpacity = Math.max(0, 1 - easeProgress);
+
+            const logoBlur = scrollProgress * 15;
+            const logoSaturation = Math.max(20, 100 - (scrollProgress * 80));
+            const logoBrightness = Math.max(50, 100 - (scrollProgress * 50));
+            const logoRotation = scrollProgress * 3;
+
+            const transformValue = `scale(${logoScale}) rotate(${logoRotation}deg)`;
+            
+            const filterValue = `invert(1) blur(${logoBlur}px)`;
+
+            heroLogo.style.transform = transformValue;
+            heroLogo.style.filter = filterValue;
+            heroLogo.style.opacity = logoOpacity;
+
+            if (logoOpacity <= 0) {
+                hero.classList.add('fade-out');
+            } else {
+                hero.classList.remove('fade-out');
+            }
+
+            // --- Logic for scroll-zooming text ---
+            const centerY = viewportHeight / 2;
+            const mainInfluenceZone = viewportHeight * 0.8;
+
+            paragraphs.forEach((p, index) => {
+                const rect = p.getBoundingClientRect();
+                const distanceFromCenter = Math.abs(rect.top + (rect.height / 2) - centerY);
+
+                const proximityMain = Math.max(0, 1 - (distanceFromCenter / mainInfluenceZone));
+
+                const scaleEased = easeOutQuart(proximityMain);
+                const opacityEased = easeOutCubic(proximityMain);
+
+                const scale = 0.65 + (scaleEased * 0.35); // Start at 0.65, animate to 1.0
+                const opacity = 0.1 + (opacityEased * 0.9); // Start at 0.1, animate to 1.0
+
+                p.style.transform = `scale(${scale})`;
+                p.style.opacity = opacity;
+            });
+            // --- END Logic for scroll-zooming text ---
+
+
+            // This handles the header fade-in, making it appear later
+            const headerFadeInPoint = viewportHeight * 0.60; 
+
+            if (scrollY > headerFadeInPoint) {
+                header.classList.add('header-visible'); // Show header
+            } else {
+                header.classList.remove('header-visible'); // Hide header
+            }
+
+
+            /* --- RE-ADDED: .at-page-bottom logic from JS --- */
+            const { scrollHeight, clientHeight } = document.documentElement;
+            // Check if user is within 5px of the bottom
+            if (scrollY + clientHeight >= scrollHeight - 5) {
+                document.body.classList.add('at-page-bottom');
+            } else {
+                document.body.classList.remove('at-page-bottom');
+            }
+            /* --- End new detection --- */
+        }
+
+        window.addEventListener('scroll', updateScroll, { passive: true });
+        updateScroll();
+    </script>
+</body>
+</html>
+
