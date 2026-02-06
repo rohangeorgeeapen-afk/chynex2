@@ -648,8 +648,8 @@
         .footer-main {
             display: grid;
             grid-template-columns: 1fr auto 1fr;
-            align-items: start;
-            gap: 60px;
+            align-items: center;
+            gap: 40px;
             margin-bottom: 50px;
         }
 
@@ -658,12 +658,11 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 0.4em;
+            gap: 0.5em;
         }
 
         .footer-brand img {
-            height: 80px;
-            filter: invert(1);
+            height: 120px;
             opacity: 0.9;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
@@ -729,30 +728,40 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
+            gap: 1.5em;
+            /* Spacing between Name/Title group and Links */
+        }
+
+        .footer-identity {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
         }
 
         .footer-name {
-            font-size: 1rem;
+            font-size: 1.2rem;
+            /* Larger to balance logo */
             font-weight: 500;
-            margin-bottom: 0.1em;
+            line-height: 1.1;
             color: #fff;
+            margin-bottom: 0.2em;
         }
 
         .footer-title {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             color: #666;
-            margin-bottom: 1em;
         }
 
         .footer-contact {
             display: flex;
-            gap: 0.8em;
+            gap: 1.2em;
+            /* More breathing room */
             align-items: center;
         }
 
         .footer-contact a {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
             text-decoration: none;
             transition: color 0.3s ease;
         }
@@ -762,8 +771,8 @@
         }
 
         .footer-contact .divider {
-            color: rgba(255, 255, 255, 0.25);
-            font-size: 0.5rem;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.4rem;
         }
 
         .footer-copy {
@@ -922,18 +931,21 @@
     </section>
 
     <!-- FOOTER -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-main">
             <div class="footer-brand">
-                <a href="index.html"><img src="chynex_logo_white.png" alt="ChyneX"></a>
+                <a href="index.html"><img src="favicons/fullywhite_noBackground.png" alt="ChyneX"></a>
                 <span class="pronunciation">/ˈkaɪ.nɛks/</span>
             </div>
             <div class="footer-cta">
                 <a href="index.html" class="footer-cta-btn">← Back to Home</a>
             </div>
             <div class="footer-info">
-                <p class="footer-name">Rohan George</p>
-                <p class="footer-title">Founder, ChyneX</p>
+                <div class="footer-identity">
+                    <p class="footer-name">Rohan George</p>
+                    <p class="footer-title">Founder, ChyneX</p>
+                </div>
                 <div class="footer-contact">
                     <a href="mailto:rohan@chynex.com">Email</a>
                     <span class="divider">•</span>
