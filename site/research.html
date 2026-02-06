@@ -930,6 +930,35 @@
         window.addEventListener('scroll', () => {
             requestAnimationFrame(updateWaveScroll);
         }, { passive: true });
+
+        // Physics Skew for Text (Research Page)
+        const textElements = document.querySelectorAll('.reveal, .page-title, .building-philosophy p, .stage-content p');
+        let currentScroll = window.scrollY;
+        let targetScroll = window.scrollY;
+        let skew = 0;
+
+        function updateScrollPhysics() {
+            targetScroll = window.scrollY;
+            currentScroll = currentScroll + (targetScroll - currentScroll) * 0.1;
+
+            const vel = targetScroll - currentScroll;
+            const targetSkew = vel * 0.15; // Gentler skew for text-heavy page
+            skew = skew + (targetSkew - skew) * 0.1;
+
+            if (Math.abs(skew) > 0.1) {
+                textElements.forEach(el => {
+                    el.style.transform = `skewY(${skew}deg)`;
+                });
+            } else {
+                textElements.forEach(el => {
+                    el.style.transform = 'none';
+                });
+            }
+
+            requestAnimationFrame(updateScrollPhysics);
+        }
+
+        requestAnimationFrame(updateScrollPhysics);
     </script>
 </body>
 

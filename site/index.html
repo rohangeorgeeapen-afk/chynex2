@@ -279,30 +279,6 @@
             overflow: hidden;
         }
 
-        /* Pinned Section Logic (JS Controlled) */
-        .pinned-section {
-            height: 300vh;
-            /* Increased to 300vh for heavy scroll feel */
-            position: relative;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        .pinned-content {
-            height: 100vh;
-            width: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 12vh 8vw;
-            will-change: transform;
-            /* Optimize for animation */
-        }
-
         .reveal {
             opacity: 0;
             transform: translateY(80px);
@@ -1324,79 +1300,68 @@
     </section>
 
     <!-- THE BODY -->
-    <section class="section loss pinned-section">
-        <div class="pinned-content">
-            <div class="section-with-image">
-                <div class="loss-content">
-                    <p class="reveal stagger-1">For decades, it learns how to move through the world. Every careful
-                        task.
-                        Every instinctive gesture. Every moment of creation, affection, and independence is written into
-                        muscle and memory.</p>
-                    <p class="reveal stagger-2">You learn to <strong>write</strong> with it.</p>
-                    <p class="reveal stagger-3">You learn to <strong>build</strong> with it.</p>
-                    <p class="reveal stagger-4">You learn to <strong>hold</strong> the people you love.</p>
-                </div>
-                <div class="section-image" id="violinImage">
-                    <img src="images/violin.jpeg" alt="Hands playing violin" class="dissolve-image">
-                    <p class="section-image-caption">The art of expression</p>
-                </div>
+    <section class="section loss">
+        <div class="section-with-image">
+            <div class="loss-content">
+                <p class="reveal stagger-1">For decades, it learns how to move through the world. Every careful task.
+                    Every instinctive gesture. Every moment of creation, affection, and independence is written into
+                    muscle and memory.</p>
+                <p class="reveal stagger-2">You learn to <strong>write</strong> with it.</p>
+                <p class="reveal stagger-3">You learn to <strong>build</strong> with it.</p>
+                <p class="reveal stagger-4">You learn to <strong>hold</strong> the people you love.</p>
+            </div>
+            <div class="section-image" id="violinImage">
+                <img src="images/violin.jpeg" alt="Hands playing violin" class="dissolve-image">
+                <p class="section-image-caption">The art of expression</p>
             </div>
         </div>
     </section>
 
     <!-- THE LOSS -->
-    <section class="section vision pinned-section">
-        <div class="pinned-content">
-            <div class="vision-content">
-                <p class="loss-moment">
-                    <span class="loss-word">Then,</span>
-                    <span class="loss-word">in</span>
-                    <span class="loss-word">an</span>
-                    <span class="loss-word">instant,</span>
-                    <span class="loss-word">something</span>
-                    <span class="loss-word">is</span>
-                    <span class="loss-word loss-emphasis">taken away.</span>
-                </p>
-            </div>
+    <section class="section vision">
+        <div class="vision-content">
+            <p class="loss-moment">
+                <span class="loss-word">Then,</span>
+                <span class="loss-word">in</span>
+                <span class="loss-word">an</span>
+                <span class="loss-word">instant,</span>
+                <span class="loss-word">something</span>
+                <span class="loss-word">is</span>
+                <span class="loss-word loss-emphasis">taken away.</span>
+            </p>
         </div>
     </section>
 
     <!-- THE PROBLEM -->
-    <section class="section problem pinned-section">
-        <div class="pinned-content">
-            <div class="problem-content" style="text-align: center; max-width: 650px; margin: 0 auto;">
-                <p class="reveal stagger-1">And what does the world offer in return?</p>
-                <p class="reveal stagger-2"><span class="problem-highlight">Too often a rigid machine.</span> Something
-                    noisy. Something heavy. Something that reminds you every time you use it that it is not part of you.
-                </p>
-                <p class="reveal stagger-3">We believe that is not good enough.</p>
-                <span class="better-way reveal stagger-4">There is a better way.</span>
-            </div>
+    <section class="section problem">
+        <div class="problem-content" style="text-align: center; max-width: 650px; margin: 0 auto;">
+            <p class="reveal stagger-1">And what does the world offer in return?</p>
+            <p class="reveal stagger-2"><span class="problem-highlight">Too often a rigid machine.</span> Something
+                noisy. Something heavy. Something that reminds you every time you use it that it is not part of you.</p>
+            <p class="reveal stagger-3">We believe that is not good enough.</p>
+            <span class="better-way reveal stagger-4">There is a better way.</span>
         </div>
     </section>
 
     <!-- THE HUMAN MOMENTS -->
-    <section class="section moments pinned-section">
-        <div class="pinned-content">
-            <div class="moments-content">
-                <p class="moments-list reveal">
-                    <span class="moment-item">Holding a loved one.</span>
-                    <span class="moment-item">Eating without help.</span>
-                    <span class="moment-item">Dressing yourself.</span>
-                    <span class="moment-item">Touching your face without thinking.</span>
-                </p>
-                <p class="moments-text reveal stagger-2">These are not small things.</p>
-                <p class="moments-text reveal stagger-3"><strong>This is life in motion.</strong></p>
+    <section class="section moments">
+        <div class="moments-content">
+            <p class="moments-list reveal">
+                <span class="moment-item">Holding a loved one.</span>
+                <span class="moment-item">Eating without help.</span>
+                <span class="moment-item">Dressing yourself.</span>
+                <span class="moment-item">Touching your face without thinking.</span>
+            </p>
+            <p class="moments-text reveal stagger-2">These are not small things.</p>
+            <p class="moments-text reveal stagger-3"><strong>This is life in motion.</strong></p>
 
-                <div class="section-image reveal stagger-4" id="pianoImage" style="margin: 3em auto; max-width: 320px;">
-                    <img src="images/piano.jpeg" alt="Hands playing piano" class="dissolve-image">
-                    <p class="section-image-caption">Every touch matters</p>
-                </div>
-
-                <p class="moments-text reveal stagger-5">This is what it means for technology to belong to you—instead
-                    of
-                    the other way around.</p>
+            <div class="section-image reveal stagger-4" id="pianoImage" style="margin: 3em auto; max-width: 320px;">
+                <img src="images/piano.jpeg" alt="Hands playing piano" class="dissolve-image">
+                <p class="section-image-caption">Every touch matters</p>
             </div>
+
+            <p class="moments-text reveal stagger-5">This is what it means for technology to belong to you—instead of
+                the other way around.</p>
         </div>
     </section>
 
@@ -1530,59 +1495,70 @@
             requestAnimationFrame(updateWaveScroll);
         }, { passive: true });
 
-        // Fluid Distortion on Scroll
+        // Ramp up: Enhanced Scroll Effects (Parallax + Physics)
         const displacementMap = document.querySelector('#displacement');
         const fluidImages = document.querySelectorAll('.dissolve-image');
+        const parallaxText = document.querySelectorAll('.reveal, .promise-statement, .opening-text');
 
-        // Physics variables
-        let lastScrollY = window.scrollY;
-        let currentScrollY = window.scrollY;
+        // Physics state
+        let currentScroll = window.scrollY;
+        let targetScroll = window.scrollY;
+        let scrollVelocity = 0;
         let skew = 0;
-        let distortion = 0;
 
-        function updateLiquidEffect() {
-            currentScrollY = window.scrollY;
+        function updateScrollEffects() {
+            targetScroll = window.scrollY;
 
-            // Calculate velocity
-            const velocity = currentScrollY - lastScrollY;
+            // Momentum (Lerp) for velocity calculation
+            // We use a separate 'currentScroll' that chases the real scroll for smooth velocity
+            currentScroll = currentScroll + (targetScroll - currentScroll) * 0.1;
 
-            // Smoothly interpolate skew/distortion based on velocity
-            // We dampen the velocity to make it feel "heavy"
-            skew = velocity * 0.15;
+            // Calculate smooth velocity
+            const vel = targetScroll - currentScroll;
+            scrollVelocity = vel;
 
-            // Distortion intensity (more aggressive)
-            const targetDistortion = Math.abs(velocity) * 2;
-            distortion = distortion + (targetDistortion - distortion) * 0.1;
+            // Skew calculation (dampened)
+            const targetSkew = vel * 0.5; // More aggressive skew
+            skew = skew + (targetSkew - skew) * 0.1;
 
-            // Clamping max distortion
-            distortion = Math.min(distortion, 80);
-
-            // Apply filter intensity
-            if (displacementMap) {
-                displacementMap.scale.baseVal = distortion;
-            }
-
-            // Apply skew + blending opacity
+            // Apply effects to Images (Skew + Parallax)
             fluidImages.forEach(img => {
                 const rect = img.getBoundingClientRect();
-                const windowHeight = window.innerHeight;
-                const imgCenter = rect.top + rect.height / 2;
-                const viewportCenter = windowHeight / 2;
+                const centerY = window.innerHeight / 2;
+                const distFromCenter = rect.top + rect.height / 2 - centerY;
 
-                // Opacity fade when leaving viewport
-                const distanceFromCenter = Math.abs(imgCenter - viewportCenter) / (windowHeight / 2);
-                const visibility = Math.max(0, Math.min(1, 1 - distanceFromCenter * 0.6));
-                const opacity = 0.3 + (visibility * 0.7);
+                // Parallax: Move image slightly against scroll
+                // const parallaxY = distFromCenter * -0.1; 
 
-                img.style.opacity = opacity;
-                img.style.transform = `perspective(1000px) skewY(${skew}deg)`;
+                // Combined transform: Parallax + 3D Skew + Scale stretch
+                // We stretch scaleY slightly based on velocity to simulate "speed lines"
+                const stretch = 1 + Math.abs(skew) * 0.005;
+
+                img.style.transform = `
+                    perspective(1000px) 
+                    skewY(${skew}deg) 
+                    scaleY(${stretch})
+                `;
+
+                // Distance opacity (fade on edges)
+                const visibility = 1 - Math.min(1, Math.abs(distFromCenter) / (window.innerHeight * 0.8));
+                img.style.opacity = 0.2 + (visibility * 0.8);
             });
 
-            lastScrollY = currentScrollY;
-            requestAnimationFrame(updateLiquidEffect);
+            // Apply effects to Text (Subtle Skew + Parallax)
+            parallaxText.forEach(el => {
+                if (Math.abs(skew) > 0.5) {
+                    // Slight skew for text too to match the "rush"
+                    el.style.transform = `skewY(${skew * 0.2}deg)`;
+                } else {
+                    el.style.transform = 'none';
+                }
+            });
+
+            requestAnimationFrame(updateScrollEffects);
         }
 
-        requestAnimationFrame(updateLiquidEffect);
+        requestAnimationFrame(updateScrollEffects);
 
         // Building list staggered animation
         const buildingList = document.querySelector('.building-list');
@@ -1604,46 +1580,6 @@
             buildingObserver.observe(buildingList);
         }
 
-        // Smooth Parallax/Sticky-Drag Effect
-        const pinnedSections = document.querySelectorAll('.pinned-section');
-
-        function updateParallax() {
-            pinnedSections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                const content = section.querySelector('.pinned-content');
-                const windowHeight = window.innerHeight;
-
-                // Calculate how far we've scrolled into the section
-                // rect.top is the distance from top of viewport to top of section
-
-                if (rect.top <= windowHeight && rect.bottom >= 0) {
-                    // Start moving when section enters viewport
-                    const scrollDistance = windowHeight - rect.top;
-                    const sectionHeight = rect.height;
-                    const contentHeight = content.offsetHeight;
-
-                    // Ratio: 0 at start, 1 at end
-                    let progress = (windowHeight - rect.top) / (windowHeight + sectionHeight);
-
-                    // Clamp progress
-                    progress = Math.max(0, Math.min(1, progress));
-
-                    // Calculate translation
-                    // We want the content to move slower than the scroll
-                    // Move it down relative to the parent as we scroll past
-                    const maxTranslate = sectionHeight - contentHeight;
-                    const translateY = maxTranslate * progress;
-
-                    // Use a slightly eased progress for smoother feel
-                    const easedY = translateY;
-
-                    content.style.transform = `translate3d(0, ${easedY}px, 0)`;
-                }
-            });
-            requestAnimationFrame(updateParallax);
-        }
-
-        requestAnimationFrame(updateParallax);
 
     </script>
 </body>
