@@ -492,6 +492,102 @@
             height: 100%;
         }
 
+        /* Word-by-word reveal for loss moment */
+        .loss-word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .loss-moment.active .loss-word {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .loss-moment.active .loss-word:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .loss-moment.active .loss-word:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .loss-moment.active .loss-word:nth-child(3) {
+            transition-delay: 0.35s;
+        }
+
+        .loss-moment.active .loss-word:nth-child(4) {
+            transition-delay: 0.5s;
+        }
+
+        .loss-moment.active .loss-word:nth-child(5) {
+            transition-delay: 0.65s;
+        }
+
+        .loss-moment.active .loss-word:nth-child(6) {
+            transition-delay: 0.85s;
+        }
+
+        .loss-moment.active .loss-word:nth-child(7) {
+            transition-delay: 1.0s;
+        }
+
+        /* Special emphasis on "taken away" */
+        .loss-emphasis {
+            display: inline-block;
+            position: relative;
+            color: #fff;
+        }
+
+        .loss-emphasis::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 100, 100, 0.8), rgba(255, 255, 255, 0.5));
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .loss-moment.active .loss-emphasis::after {
+            width: 100%;
+            transition-delay: 1.3s;
+        }
+
+        @keyframes lossShake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10% {
+                transform: translateX(-3px);
+            }
+
+            20% {
+                transform: translateX(3px);
+            }
+
+            30% {
+                transform: translateX(-2px);
+            }
+
+            40% {
+                transform: translateX(2px);
+            }
+
+            50% {
+                transform: translateX(0);
+            }
+        }
+
+        .loss-moment.active .loss-emphasis {
+            animation: lossShake 0.5s ease 1.1s;
+        }
+
         /* =============================================
            SECTION: THE PROBLEM
            ============================================= */
@@ -1194,7 +1290,15 @@
     <!-- THE LOSS -->
     <section class="section vision">
         <div class="vision-content">
-            <p class="loss-moment reveal">Then, in an instant, something is taken away.</p>
+            <p class="loss-moment">
+                <span class="loss-word">Then,</span>
+                <span class="loss-word">in</span>
+                <span class="loss-word">an</span>
+                <span class="loss-word">instant,</span>
+                <span class="loss-word">something</span>
+                <span class="loss-word">is</span>
+                <span class="loss-word loss-emphasis">taken away.</span>
+            </p>
         </div>
     </section>
 
