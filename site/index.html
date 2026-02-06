@@ -1139,38 +1139,28 @@
             transform: translateY(0);
         }
 
-        .footer-links {
-            display: flex;
-            gap: 2.5em;
+        .footer-cta {
             justify-self: center;
         }
 
-        .footer-links a {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
-            text-decoration: none;
-            position: relative;
-            padding-bottom: 2px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
+        .footer-cta-btn {
+            display: inline-block;
+            padding: 0.8em 2em;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 100px;
             color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.03em;
+            transition: all 0.3s ease;
         }
 
-        .footer-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: #fff;
-            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .footer-links a:hover::after {
-            width: 100%;
+        .footer-cta-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
         }
 
         .footer-info {
@@ -1188,6 +1178,30 @@
         .footer-title {
             font-size: 0.8rem;
             color: #555;
+            margin-bottom: 0.8em;
+        }
+
+        .footer-contact {
+            display: flex;
+            gap: 0.5em;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .footer-contact a {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-contact a:hover {
+            color: #fff;
+        }
+
+        .footer-contact .divider {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.6rem;
         }
 
         .footer-copy {
@@ -1419,14 +1433,18 @@
                 <a href="index.html"><img src="chynex_logo_white.png" alt="ChyneX"></a>
                 <span class="pronunciation">/ˈkaɪ.nɛks/</span>
             </div>
-            <div class="footer-links">
-                <a href="research.html">Research</a>
-                <a href="mailto:rohan@chynex.com">Email</a>
-                <a href="https://www.linkedin.com/in/rohaneapen/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <div class="footer-cta">
+                <a href="research.html" class="footer-cta-btn">Explore Our Research →</a>
             </div>
             <div class="footer-info">
                 <p class="footer-name">Rohan George</p>
                 <p class="footer-title">Founder, ChyneX</p>
+                <div class="footer-contact">
+                    <a href="mailto:rohan@chynex.com">Email</a>
+                    <span class="divider">•</span>
+                    <a href="https://www.linkedin.com/in/rohaneapen/" target="_blank"
+                        rel="noopener noreferrer">LinkedIn</a>
+                </div>
             </div>
         </div>
         <p class="footer-copy">© 2025 ChyneX. All rights reserved.</p>
