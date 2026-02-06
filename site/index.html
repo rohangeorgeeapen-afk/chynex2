@@ -694,6 +694,315 @@
         }
 
         /* =============================================
+           SECTION: HOW WE'RE BUILDING THIS
+           ============================================= */
+        .building {
+            min-height: 100vh;
+            padding: 15vh 8vw;
+            position: relative;
+            background: linear-gradient(180deg, #000 0%, #0a0808 50%, #000 100%);
+        }
+
+        .building::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+
+        .building-header {
+            text-align: center;
+            margin-bottom: 8vh;
+        }
+
+        .building-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 1.5em;
+            display: block;
+        }
+
+        .building-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .building-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8vw;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .building-philosophy {
+            position: relative;
+        }
+
+        .building-philosophy p {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #888;
+            margin-bottom: 1.8em;
+        }
+
+        .building-philosophy p:first-of-type::first-letter {
+            font-size: 3.5rem;
+            font-weight: 600;
+            float: left;
+            line-height: 1;
+            margin-right: 0.15em;
+            margin-top: 0.05em;
+            color: #fff;
+        }
+
+        .building-philosophy strong {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .building-emphasis {
+            font-size: 1.4rem !important;
+            color: #ccc !important;
+            font-weight: 500;
+            border-left: 2px solid rgba(255, 255, 255, 0.3);
+            padding-left: 1.5em;
+            margin: 2em 0 !important;
+        }
+
+        .building-work {
+            position: relative;
+        }
+
+        .building-work-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 2em;
+            display: flex;
+            align-items: center;
+            gap: 1em;
+        }
+
+        .building-work-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .building-list {
+            list-style: none;
+        }
+
+        .building-list li {
+            position: relative;
+            padding: 1.2em 0 1.2em 2.5em;
+            font-size: 1rem;
+            color: #777;
+            line-height: 1.7;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .building-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+        }
+
+        .building-list li::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            width: 3px;
+            height: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.3s ease 0.1s;
+        }
+
+        .building-list li.active {
+            color: #ddd;
+            padding-left: 3em;
+        }
+
+        .building-list li.active::before {
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+        }
+
+        .building-list li.active::after {
+            transform: translateY(-50%) scale(1);
+        }
+
+        .building-goal {
+            margin-top: 3em;
+            padding: 2em;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .building-goal p {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: #999;
+            margin: 0;
+        }
+
+        .building-goal strong {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .building-coda {
+            text-align: center;
+            max-width: 700px;
+            margin: 10vh auto 0;
+            padding-top: 6vh;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .building-coda p {
+            font-size: 1.2rem;
+            line-height: 1.85;
+            color: #666;
+            font-style: italic;
+        }
+
+        .building-coda em {
+            color: #fff;
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        @media (max-width: 900px) {
+            .building-grid {
+                grid-template-columns: 1fr;
+                gap: 5vh;
+            }
+
+            .building-philosophy p:first-of-type::first-letter {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* =============================================
+           SECTION: OUR STAGE
+           ============================================= */
+        .stage {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12vh 8vw;
+            position: relative;
+            background: #000;
+        }
+
+        .stage::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(60, 50, 40, 0.08) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .stage-content {
+            max-width: 650px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stage-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75em;
+            padding: 0.6em 1.4em;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            margin-bottom: 2.5em;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .stage-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #4a7;
+            border-radius: 50%;
+            animation: stagePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes stagePulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scale(0.9);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        .stage-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #fff;
+            margin-bottom: 0.8em;
+        }
+
+        .stage-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #888;
+            margin-bottom: 1.5em;
+        }
+
+        .stage-note {
+            font-size: 1rem;
+            color: #555;
+            font-style: italic;
+            margin-top: 2em;
+            padding-top: 2em;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* =============================================
            FOOTER
            ============================================= */
         .footer {
@@ -968,6 +1277,72 @@
         </div>
     </section>
 
+    <!-- HOW WE'RE BUILDING THIS -->
+    <section class="building">
+        <div class="building-header reveal">
+            <span class="building-label">Our Approach</span>
+            <h2 class="building-title">How We're Building This</h2>
+        </div>
+
+        <div class="building-grid">
+            <div class="building-philosophy">
+                <p class="reveal stagger-1">Recreating the human hand is not a mechanical problem alone—it is a
+                    biological one.</p>
+
+                <p class="reveal stagger-2">Muscles, tendons, nerves, and joints work together in layered systems that
+                    evolved for dexterity, compliance, and endurance. Traditional prosthetics often replace this
+                    complexity with rigid motors and linkages. They restore function, but not fluency.</p>
+
+                <p class="building-emphasis reveal stagger-3">Our approach begins at the level of anatomy.</p>
+
+                <p class="reveal stagger-4">We are researching <strong>artificial muscle systems</strong> that replicate
+                    how biological muscle contracts—focusing on compliant actuation, variable stiffness, and
+                    tendon-driven architectures rather than rigid rotary joints alone.</p>
+
+                <p class="reveal stagger-5">Instead of treating a limb as a single mechanism, we are mapping muscle
+                    groups, joint degrees of freedom, and force transmission pathways, then designing synthetic
+                    analogues that preserve those relationships.</p>
+            </div>
+
+            <div class="building-work reveal">
+                <p class="building-work-label">Current Work</p>
+                <ul class="building-list">
+                    <li>Studying musculoskeletal anatomy and biomechanics of the human hand and forearm</li>
+                    <li>Prototyping soft-actuator concepts inspired by biological muscle behavior</li>
+                    <li>Exploring materials and fabrication methods for artificial muscle fibers</li>
+                    <li>Modeling tendon routing and joint coupling to reproduce natural motion</li>
+                    <li>Building simulation environments to evaluate dexterity and control strategies</li>
+                </ul>
+
+                <div class="building-goal reveal stagger-2">
+                    <p>Our long-term goal is to integrate <strong>sensing, control systems, and compliant
+                            actuation</strong> so that prosthetic limbs respond intuitively—adapting to the user rather
+                        than forcing the user to adapt to the device.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="building-coda reveal">
+            <p>We are still early in this journey. What exists today are concepts, models, and experimental prototypes.
+                But every iteration is guided by the same constraint: <em>if it doesn't feel human, it isn't
+                    finished.</em></p>
+        </div>
+    </section>
+
+    <!-- OUR STAGE -->
+    <section class="stage">
+        <div class="stage-content">
+            <span class="stage-badge reveal">Research & Prototyping</span>
+            <h2 class="stage-title reveal stagger-1">Our Stage</h2>
+            <p class="stage-text reveal stagger-2">Chynex is currently in the research and prototyping phase. We are
+                exploring artificial muscle architectures, biomechanical modeling, and control strategies for dexterous
+                limbs.</p>
+            <p class="stage-text reveal stagger-3">We share our progress openly as designs mature and prototypes evolve.
+            </p>
+            <p class="stage-note reveal stagger-4">This site will grow alongside the work.</p>
+        </div>
+    </section>
+
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-brand">
@@ -1140,6 +1515,26 @@
         }
 
         requestAnimationFrame(updateLiquidEffect);
+
+        // Building list staggered animation
+        const buildingList = document.querySelector('.building-list');
+        const buildingListItems = document.querySelectorAll('.building-list li');
+
+        if (buildingList) {
+            const buildingObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        buildingListItems.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.classList.add('active');
+                            }, index * 200);
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            buildingObserver.observe(buildingList);
+        }
     </script>
 </body>
 
