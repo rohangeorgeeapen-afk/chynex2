@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ChyneX Research - How we're building bionics that feel human.">
+    <title>Research | ChyneX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor.hover {
+            width: 50px;
+            height: 50px;
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Scroll Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #fff, #888);
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.1s linear;
+        }
+
+        /* Wave Lines Background */
+        .wave-bg {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 300%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .wave-bg svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.12;
+        }
+
+        .wave-bg .wave {
+            fill: none;
+            stroke: #fff;
+            stroke-width: 1;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .wave-bg .wave-1 {
+            animation: waveFlow1 35s linear infinite;
+        }
+
+        .wave-bg .wave-2 {
+            animation: waveFlow2 28s linear infinite;
+        }
+
+        .wave-bg .wave-3 {
+            animation: waveFlow1 40s linear infinite;
+        }
+
+        .wave-bg .wave-4 {
+            animation: waveFlow2 32s linear infinite;
+        }
+
+        .wave-bg .wave-5 {
+            animation: waveFlow1 38s linear infinite;
+        }
+
+        @keyframes waveFlow1 {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-33.333%);
+            }
+        }
+
+        @keyframes waveFlow2 {
+            0% {
+                transform: translateX(-33.333%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* Page Header */
+        .page-header {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 5vw;
+            position: relative;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+        }
+
+        .page-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 1.5em;
+        }
+
+        .page-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            max-width: 800px;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        .back-link::before {
+            content: '←';
+        }
+
+        /* Sections */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 12vh 8vw;
+            position: relative;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(80px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 {
+            transition-delay: 0.1s;
+        }
+
+        .stagger-2 {
+            transition-delay: 0.2s;
+        }
+
+        .stagger-3 {
+            transition-delay: 0.3s;
+        }
+
+        .stagger-4 {
+            transition-delay: 0.4s;
+        }
+
+        .stagger-5 {
+            transition-delay: 0.5s;
+        }
+
+        /* Building Section */
+        .building {
+            min-height: 100vh;
+            padding: 15vh 8vw;
+            position: relative;
+        }
+
+        .building::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+
+        .building-header {
+            text-align: center;
+            margin-bottom: 8vh;
+        }
+
+        .building-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 1.5em;
+            display: block;
+        }
+
+        .building-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .building-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8vw;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .building-philosophy p {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #888;
+            margin-bottom: 1.8em;
+        }
+
+        .building-philosophy p:first-of-type::first-letter {
+            font-size: 3.5rem;
+            font-weight: 600;
+            float: left;
+            line-height: 1;
+            margin-right: 0.15em;
+            margin-top: 0.05em;
+            color: #fff;
+        }
+
+        .building-philosophy strong {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .building-emphasis {
+            font-size: 1.4rem !important;
+            color: #ccc !important;
+            font-weight: 500;
+            border-left: 2px solid rgba(255, 255, 255, 0.3);
+            padding-left: 1.5em;
+            margin: 2em 0 !important;
+        }
+
+        .building-work-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 2em;
+            display: flex;
+            align-items: center;
+            gap: 1em;
+        }
+
+        .building-work-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .building-list {
+            list-style: none;
+        }
+
+        .building-list li {
+            position: relative;
+            padding: 1.2em 0 1.2em 2.5em;
+            font-size: 1rem;
+            color: #777;
+            line-height: 1.7;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .building-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .building-goal {
+            margin-top: 3em;
+            padding: 2em;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .building-goal p {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: #999;
+            margin: 0;
+        }
+
+        .building-goal strong {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        @media (max-width: 900px) {
+            .building-grid {
+                grid-template-columns: 1fr;
+                gap: 5vh;
+            }
+
+            .building-philosophy p:first-of-type::first-letter {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Stage Section */
+        .stage {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12vh 8vw;
+            position: relative;
+        }
+
+        .stage::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(60, 50, 40, 0.08) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .stage-content {
+            max-width: 650px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stage-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75em;
+            padding: 0.6em 1.4em;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            margin-bottom: 2.5em;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .stage-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #4a7;
+            border-radius: 50%;
+            animation: stagePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes stagePulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scale(0.9);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        .stage-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #fff;
+            margin-bottom: 0.8em;
+        }
+
+        .stage-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #888;
+            margin-bottom: 1.5em;
+        }
+
+        .stage-note {
+            font-size: 1rem;
+            color: #555;
+            font-style: italic;
+            margin-top: 2em;
+            padding-top: 2em;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Join Section */
+        .join {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12vh 8vw;
+            position: relative;
+        }
+
+        .join-content {
+            text-align: center;
+            max-width: 700px;
+        }
+
+        .join-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #fff;
+            margin-bottom: 1em;
+        }
+
+        .join-text {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: #888;
+            margin-bottom: 2em;
+        }
+
+        .join-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75em;
+            padding: 1em 2.5em;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 100px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+
+        .join-cta:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 100px 8vw 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 40px;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .footer-brand img {
+            height: 80px;
+            filter: invert(1);
+            opacity: 0.9;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .footer-brand img:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .footer-info {
+            text-align: right;
+        }
+
+        .footer-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.2em;
+        }
+
+        .footer-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1.2em;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2em;
+        }
+
+        .footer-links a {
+            font-size: 0.9rem;
+            color: #fff;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 2px;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #fff;
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        .footer-copy {
+            width: 100%;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #444;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                cursor: auto;
+            }
+
+            .cursor,
+            .cursor-dot {
+                display: none;
+            }
+
+            .back-link {
+                top: 20px;
+                left: 20px;
+            }
+
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 60px 7vw 40px;
+            }
+
+            .footer-info {
+                text-align: left;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Wave Background -->
+    <div class="wave-bg" id="waveBg">
+        <svg viewBox="0 0 300 100" preserveAspectRatio="none">
+            <path class="wave wave-1"
+                d="M0,15 C25,5 25,25 50,15 S75,5 100,15 S125,25 150,15 S175,5 200,15 S225,25 250,15 S275,5 300,15" />
+            <path class="wave wave-2"
+                d="M0,30 C25,20 25,40 50,30 S75,20 100,30 S125,40 150,30 S175,20 200,30 S225,40 250,30 S275,20 300,30" />
+            <path class="wave wave-3"
+                d="M0,50 C25,40 25,60 50,50 S75,40 100,50 S125,60 150,50 S175,40 200,50 S225,60 250,50 S275,40 300,50" />
+            <path class="wave wave-4"
+                d="M0,70 C25,60 25,80 50,70 S75,60 100,70 S125,80 150,70 S175,60 200,70 S225,80 250,70 S275,60 300,70" />
+            <path class="wave wave-5"
+                d="M0,85 C25,75 25,95 50,85 S75,75 100,85 S125,95 150,85 S175,75 200,85 S225,95 250,85 S275,75 300,85" />
+        </svg>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar"></div>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <a href="index.html" class="back-link">Back to Home</a>
+        <span class="page-label">Our Research</span>
+        <h1 class="page-title">Bionics meant to disappear.</h1>
+    </header>
+
+    <!-- THE APPROACH -->
+    <section class="building">
+        <div class="building-grid">
+            <div class="building-philosophy">
+                <p class="reveal stagger-1">We are building limbs that feel natural—not because they are invisible, but
+                    because the boundary between person and device fades.</p>
+
+                <p class="building-emphasis reveal stagger-2">Our work begins with biology.</p>
+
+                <p class="reveal stagger-3">We study how the human body actually moves. How muscles coordinate. How
+                    tendons route force. How joints cooperate to create fluid motion.</p>
+
+                <p class="reveal stagger-4">Then we design synthetic systems that follow those same principles—rather
+                    than forcing the body to adapt to machines.</p>
+            </div>
+
+            <div class="building-work reveal">
+                <p class="building-work-label">Current Work</p>
+                <ul class="building-list">
+                    <li>Studying musculoskeletal anatomy and biomechanics of the human hand and forearm</li>
+                    <li>Prototyping soft-actuator concepts inspired by biological muscle behavior</li>
+                    <li>Exploring materials and fabrication methods for artificial muscle fibers</li>
+                    <li>Modeling tendon routing and joint coupling to reproduce natural motion</li>
+                    <li>Building simulation environments to evaluate dexterity and control strategies</li>
+                </ul>
+
+                <div class="building-goal reveal stagger-2">
+                    <p>The same vision guides both <strong>prosthetics and humanoid systems</strong>. Movement should
+                        feel intuitive. Responsive. Alive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STAGE -->
+    <section class="stage">
+        <div class="stage-content">
+            <span class="stage-badge reveal">Research & Prototyping</span>
+            <h2 class="stage-title reveal stagger-1">Our Stage</h2>
+            <p class="stage-text reveal stagger-2">Chynex is currently in the research and prototyping phase. We are
+                exploring artificial muscle architectures, biomechanical modeling, and control strategies for dexterous
+                limbs.</p>
+            <p class="stage-text reveal stagger-3">We share our progress openly as designs mature and prototypes evolve.
+            </p>
+            <p class="stage-note reveal stagger-4">This site will grow alongside the work.</p>
+        </div>
+    </section>
+
+    <!-- JOIN US -->
+    <section class="join">
+        <div class="join-content">
+            <h2 class="join-title reveal">Join the Mission</h2>
+            <p class="join-text reveal stagger-1">We're looking for researchers, engineers, and dreamers who believe the
+                body deserves better. If you want to build something that matters, let's talk.</p>
+            <a href="mailto:rohan@chynex.com" class="join-cta reveal stagger-2">Get in Touch →</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-brand">
+            <a href="index.html"><img src="chynex_logo_white.png" alt="ChyneX"></a>
+        </div>
+        <div class="footer-info">
+            <p class="footer-name">Rohan George</p>
+            <p class="footer-title">Founder, ChyneX</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="mailto:rohan@chynex.com">Email</a>
+                <a href="https://www.linkedin.com/in/rohaneapen/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+        </div>
+        <p class="footer-copy">© 2025 ChyneX. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Cursor hover effect on links
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Progress Bar
+        const progressBar = document.querySelector('.progress-bar');
+
+        function updateProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        window.addEventListener('scroll', updateProgress, { passive: true });
+
+        // Scroll Reveal
+        const reveals = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        reveals.forEach(el => revealObserver.observe(el));
+
+        // Wave Scroll Interaction
+        const waveBg = document.getElementById('waveBg');
+
+        function updateWaveScroll() {
+            const scrollY = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = scrollY / docHeight;
+            const yShift = scrollPercent * 30;
+            waveBg.style.transform = `translateY(${yShift}%)`;
+        }
+
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(updateWaveScroll);
+        }, { passive: true });
+    </script>
+</body>
+
+</html>
