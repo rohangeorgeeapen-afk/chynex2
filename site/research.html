@@ -168,6 +168,9 @@
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.4);
             margin-bottom: 1.5em;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: headerFadeIn 1s ease 0.2s forwards;
         }
 
         .page-title {
@@ -179,6 +182,16 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             max-width: 800px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: headerFadeIn 1s ease 0.4s forwards;
+        }
+
+        @keyframes headerFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .back-link {
