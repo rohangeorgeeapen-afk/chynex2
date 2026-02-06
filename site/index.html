@@ -279,32 +279,28 @@
             overflow: hidden;
         }
 
-        /* Pinned Section Logic */
+        /* Pinned Section Logic (JS Controlled) */
         .pinned-section {
-            min-height: 180vh;
+            height: 150vh;
+            /* Reduced slightly to prevent excessive empty space */
             position: relative;
             padding: 0;
-            overflow: visible;
+            overflow: hidden;
         }
 
         .pinned-content {
             height: 100vh;
-            position: sticky;
+            width: 100%;
+            position: absolute;
             top: 0;
+            left: 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 100%;
             padding: 12vh 8vw;
-        }
-
-        /* Override default section margin/padding for pinned variations */
-        .loss.pinned-section,
-        .vision.pinned-section,
-        .problem.pinned-section,
-        .moments.pinned-section {
-            margin-bottom: 0px;
+            will-change: transform;
+            /* Optimize for animation */
         }
 
         .reveal {
@@ -1608,6 +1604,46 @@
             buildingObserver.observe(buildingList);
         }
 
+        // Smooth Parallax/Sticky-Drag Effect
+        const pinnedSections = document.querySelectorAll('.pinned-section');
+
+        function updateParallax() {
+            pinnedSections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                const content = section.querySelector('.pinned-content');
+                const windowHeight = window.innerHeight;
+
+                // Calculate how far we've scrolled into the section
+                // rect.top is the distance from top of viewport to top of section
+
+                if (rect.top <= windowHeight && rect.bottom >= 0) {
+                    // Start moving when section enters viewport
+                    const scrollDistance = windowHeight - rect.top;
+                    const sectionHeight = rect.height;
+                    const contentHeight = content.offsetHeight;
+
+                    // Ratio: 0 at start, 1 at end
+                    let progress = (windowHeight - rect.top) / (windowHeight + sectionHeight);
+
+                    // Clamp progress
+                    progress = Math.max(0, Math.min(1, progress));
+
+                    // Calculate translation
+                    // We want the content to move slower than the scroll
+                    // Move it down relative to the parent as we scroll past
+                    const maxTranslate = sectionHeight - contentHeight;
+                    const translateY = maxTranslate * progress;
+
+                    // Use a slightly eased progress for smoother feel
+                    const easedY = translateY;
+
+                    content.style.transform = `translate3d(0, ${easedY}px, 0)`;
+                }
+            });
+            requestAnimationFrame(updateParallax);
+        }
+
+        requestAnimationFrame(updateParallax);
 
     </script>
 </body>
