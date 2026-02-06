@@ -22,6 +22,7 @@
         html {
             font-size: 16px;
             scroll-behavior: smooth;
+            scroll-snap-type: y proximity;
         }
 
         body {
@@ -30,6 +31,15 @@
             color: #fff;
             overflow-x: hidden;
             cursor: none;
+        }
+
+        /* Scroll snap for sections */
+        .section,
+        .opening,
+        .promise-section,
+        .footer {
+            scroll-snap-align: start;
+            scroll-snap-stop: normal;
         }
 
         /* Custom Cursor */
