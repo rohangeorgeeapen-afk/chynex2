@@ -22,7 +22,6 @@
         html {
             font-size: 16px;
             scroll-behavior: smooth;
-            scroll-snap-type: y proximity;
         }
 
         body {
@@ -33,14 +32,6 @@
             cursor: none;
         }
 
-        /* Scroll snap for sections */
-        .section,
-        .opening,
-        .promise-section,
-        .footer {
-            scroll-snap-align: start;
-            scroll-snap-stop: normal;
-        }
 
         /* Custom Cursor */
         .cursor {
@@ -1546,6 +1537,52 @@
 
             buildingObserver.observe(buildingList);
         }
+
+        // Gentle section snap - only nudges when very close to section boundary
+        const snapSections = document.querySelectorAll('.section, .opening, .promise-section');
+        let scrollTimeout;
+        let isScrolling = false;
+
+        function gentleSnap() {
+            if (isScrolling) return;
+
+            const viewportHeight = window.innerHeight;
+            const scrollY = window.scrollY;
+
+            let closestSection = null;
+            let minDistance = Infinity;
+
+            snapSections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                const sectionTop = rect.top;
+
+                // Only consider sections near the top of viewport
+                if (Math.abs(sectionTop) < viewportHeight * 0.15) {
+                    if (Math.abs(sectionTop) < Math.abs(minDistance)) {
+                        minDistance = sectionTop;
+                        closestSection = section;
+                    }
+                }
+            });
+
+            // Only snap if we're very close (within 15% of viewport height)
+            if (closestSection && Math.abs(minDistance) > 5 && Math.abs(minDistance) < viewportHeight * 0.15) {
+                const targetScroll = scrollY + minDistance;
+                window.scrollTo({
+                    top: targetScroll,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            isScrolling = true;
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                isScrolling = false;
+                gentleSnap();
+            }, 150); // Wait 150ms after scroll stops
+        }, { passive: true });
     </script>
 </body>
 
