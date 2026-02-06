@@ -497,7 +497,6 @@
            ============================================= */
         .problem {
             justify-content: flex-end;
-            background: linear-gradient(135deg, #000 0%, #0a0a0a 100%);
         }
 
         .problem::before {
@@ -600,7 +599,6 @@
            SECTION: THE HUMAN MOMENTS
            ============================================= */
         .moments {
-            background: linear-gradient(180deg, #050505 0%, #000 100%);
             flex-direction: column;
             justify-content: center;
             text-align: center;
@@ -700,7 +698,6 @@
             min-height: 100vh;
             padding: 15vh 8vw;
             position: relative;
-            background: linear-gradient(180deg, #000 0%, #0a0808 50%, #000 100%);
         }
 
         .building::before {
@@ -780,9 +777,268 @@
             margin: 2em 0 !important;
         }
 
+        /* Muscle Fiber Visualization */
+        .muscle-visualization {
+            position: relative;
+            height: 280px;
+            margin: 3em 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .muscle-fiber-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .muscle-fiber {
+            position: relative;
+            height: 12px;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(180, 120, 100, 0.1) 10%,
+                    rgba(180, 120, 100, 0.3) 30%,
+                    rgba(200, 140, 120, 0.4) 50%,
+                    rgba(180, 120, 100, 0.3) 70%,
+                    rgba(180, 120, 100, 0.1) 90%,
+                    transparent 100%);
+            border-radius: 6px;
+            transform: scaleX(1);
+            transform-origin: center;
+            transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .muscle-fiber::before {
+            content: '';
+            position: absolute;
+            inset: 2px 10%;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 180, 160, 0.2) 20%,
+                    rgba(255, 200, 180, 0.4) 50%,
+                    rgba(255, 180, 160, 0.2) 80%,
+                    transparent 100%);
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .muscle-fiber::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1) 50%,
+                    transparent);
+            border-radius: 6px;
+            opacity: 0;
+        }
+
+        /* Tendon attachments */
+        .muscle-fiber .tendon-left,
+        .muscle-fiber .tendon-right {
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(200, 200, 200, 0.3), rgba(255, 255, 255, 0.5));
+            transform: translateY(-50%);
+            border-radius: 2px;
+            opacity: 0;
+            transition: opacity 0.6s ease, width 0.8s ease;
+        }
+
+        .muscle-fiber .tendon-left {
+            left: -40px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(200, 200, 200, 0.4));
+        }
+
+        .muscle-fiber .tendon-right {
+            right: -40px;
+            background: linear-gradient(270deg, rgba(255, 255, 255, 0.1), rgba(200, 200, 200, 0.4));
+        }
+
+        /* Contracted state */
+        .muscle-visualization.active .muscle-fiber {
+            animation: muscleContract 2.5s ease-in-out infinite;
+        }
+
+        .muscle-visualization.active .muscle-fiber::before {
+            opacity: 1;
+            animation: musclePulse 2.5s ease-in-out infinite;
+        }
+
+        .muscle-visualization.active .muscle-fiber .tendon-left,
+        .muscle-visualization.active .muscle-fiber .tendon-right {
+            opacity: 1;
+        }
+
+        /* Staggered delays for each fiber */
+        .muscle-fiber:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .muscle-fiber:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .muscle-fiber:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .muscle-fiber:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .muscle-fiber:nth-child(5) {
+            animation-delay: 0.15s;
+        }
+
+        .muscle-fiber:nth-child(6) {
+            animation-delay: 0.1s;
+        }
+
+        .muscle-fiber:nth-child(7) {
+            animation-delay: 0s;
+        }
+
+        .muscle-fiber:nth-child(1)::before,
+        .muscle-fiber:nth-child(7)::before {
+            animation-delay: 0s;
+        }
+
+        .muscle-fiber:nth-child(2)::before,
+        .muscle-fiber:nth-child(6)::before {
+            animation-delay: 0.1s;
+        }
+
+        .muscle-fiber:nth-child(3)::before,
+        .muscle-fiber:nth-child(5)::before {
+            animation-delay: 0.15s;
+        }
+
+        .muscle-fiber:nth-child(4)::before {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes muscleContract {
+
+            0%,
+            100% {
+                transform: scaleX(1);
+            }
+
+            50% {
+                transform: scaleX(0.75);
+            }
+        }
+
+        @keyframes musclePulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                filter: blur(0px);
+            }
+
+            50% {
+                opacity: 0.8;
+                filter: blur(1px);
+            }
+        }
+
+        /* Labels */
+        .muscle-labels {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .muscle-label {
+            position: absolute;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            opacity: 0;
+            transition: opacity 0.6s ease 0.3s;
+        }
+
+        .muscle-visualization.active .muscle-label {
+            opacity: 1;
+        }
+
+        .muscle-label.label-fiber {
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .muscle-label.label-tendon-left {
+            bottom: 10px;
+            left: 5%;
+        }
+
+        .muscle-label.label-tendon-right {
+            bottom: 10px;
+            right: 5%;
+        }
+
+        /* Outer glow container */
+        .muscle-glow {
+            position: absolute;
+            inset: -20px;
+            background: radial-gradient(ellipse at center, rgba(200, 140, 120, 0.08) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 1s ease;
+            pointer-events: none;
+        }
+
+        .muscle-visualization.active .muscle-glow {
+            opacity: 1;
+            animation: glowBreath 2.5s ease-in-out infinite;
+        }
+
+        @keyframes glowBreath {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .muscle-visualization {
+                height: 200px;
+                margin: 2em 0;
+            }
+
+            .muscle-fiber {
+                height: 8px;
+            }
+        }
+
         .building-work {
             position: relative;
         }
+
 
         .building-work-label {
             font-size: 0.65rem;
@@ -918,7 +1174,6 @@
             justify-content: center;
             padding: 12vh 8vw;
             position: relative;
-            background: #000;
         }
 
         .stage::before {
@@ -1302,6 +1557,32 @@
                 <p class="reveal stagger-5">Instead of treating a limb as a single mechanism, we are mapping muscle
                     groups, joint degrees of freedom, and force transmission pathways, then designing synthetic
                     analogues that preserve those relationships.</p>
+
+                <!-- Muscle Fiber Visualization -->
+                <div class="muscle-visualization" id="muscleViz">
+                    <div class="muscle-glow"></div>
+                    <div class="muscle-fiber-container">
+                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
+                        </div>
+                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
+                        </div>
+                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
+                        </div>
+                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
+                        </div>
+                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
+                        </div>
+                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
+                        </div>
+                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
+                        </div>
+                    </div>
+                    <div class="muscle-labels">
+                        <span class="muscle-label label-fiber">Muscle Fibers</span>
+                        <span class="muscle-label label-tendon-left">Tendon</span>
+                        <span class="muscle-label label-tendon-right">Tendon</span>
+                    </div>
+                </div>
             </div>
 
             <div class="building-work reveal">
@@ -1534,6 +1815,20 @@
             }, { threshold: 0.3 });
 
             buildingObserver.observe(buildingList);
+        }
+
+        // Muscle Fiber Visualization Animation
+        const muscleViz = document.getElementById('muscleViz');
+        if (muscleViz) {
+            const muscleObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        muscleViz.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.4 });
+
+            muscleObserver.observe(muscleViz);
         }
     </script>
 </body>
