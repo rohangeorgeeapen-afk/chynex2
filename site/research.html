@@ -655,6 +655,10 @@
 
         .footer-brand {
             justify-self: start;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5em;
         }
 
         .footer-brand img {
@@ -664,9 +668,24 @@
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        .footer-brand img:hover {
+        .footer-brand:hover img {
             opacity: 1;
             transform: scale(1.05);
+        }
+
+        .pronunciation {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.1em;
+            font-style: italic;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .footer-brand:hover .pronunciation {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .footer-links {
@@ -881,6 +900,7 @@
         <div class="footer-main">
             <div class="footer-brand">
                 <a href="index.html"><img src="chynex_logo_white.png" alt="ChyneX"></a>
+                <span class="pronunciation">/ˈkaɪ.nɛks/</span>
             </div>
             <div class="footer-links">
                 <a href="index.html">Home</a>
