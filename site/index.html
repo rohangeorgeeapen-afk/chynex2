@@ -777,268 +777,9 @@
             margin: 2em 0 !important;
         }
 
-        /* Muscle Fiber Visualization */
-        .muscle-visualization {
-            position: relative;
-            height: 280px;
-            margin: 3em 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .muscle-fiber-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .muscle-fiber {
-            position: relative;
-            height: 12px;
-            background: linear-gradient(90deg,
-                    transparent 0%,
-                    rgba(180, 120, 100, 0.1) 10%,
-                    rgba(180, 120, 100, 0.3) 30%,
-                    rgba(200, 140, 120, 0.4) 50%,
-                    rgba(180, 120, 100, 0.3) 70%,
-                    rgba(180, 120, 100, 0.1) 90%,
-                    transparent 100%);
-            border-radius: 6px;
-            transform: scaleX(1);
-            transform-origin: center;
-            transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .muscle-fiber::before {
-            content: '';
-            position: absolute;
-            inset: 2px 10%;
-            background: linear-gradient(90deg,
-                    transparent 0%,
-                    rgba(255, 180, 160, 0.2) 20%,
-                    rgba(255, 200, 180, 0.4) 50%,
-                    rgba(255, 180, 160, 0.2) 80%,
-                    transparent 100%);
-            border-radius: 4px;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-
-        .muscle-fiber::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.1) 50%,
-                    transparent);
-            border-radius: 6px;
-            opacity: 0;
-        }
-
-        /* Tendon attachments */
-        .muscle-fiber .tendon-left,
-        .muscle-fiber .tendon-right {
-            position: absolute;
-            top: 50%;
-            width: 40px;
-            height: 3px;
-            background: linear-gradient(90deg, rgba(200, 200, 200, 0.3), rgba(255, 255, 255, 0.5));
-            transform: translateY(-50%);
-            border-radius: 2px;
-            opacity: 0;
-            transition: opacity 0.6s ease, width 0.8s ease;
-        }
-
-        .muscle-fiber .tendon-left {
-            left: -40px;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(200, 200, 200, 0.4));
-        }
-
-        .muscle-fiber .tendon-right {
-            right: -40px;
-            background: linear-gradient(270deg, rgba(255, 255, 255, 0.1), rgba(200, 200, 200, 0.4));
-        }
-
-        /* Contracted state */
-        .muscle-visualization.active .muscle-fiber {
-            animation: muscleContract 2.5s ease-in-out infinite;
-        }
-
-        .muscle-visualization.active .muscle-fiber::before {
-            opacity: 1;
-            animation: musclePulse 2.5s ease-in-out infinite;
-        }
-
-        .muscle-visualization.active .muscle-fiber .tendon-left,
-        .muscle-visualization.active .muscle-fiber .tendon-right {
-            opacity: 1;
-        }
-
-        /* Staggered delays for each fiber */
-        .muscle-fiber:nth-child(1) {
-            animation-delay: 0s;
-        }
-
-        .muscle-fiber:nth-child(2) {
-            animation-delay: 0.1s;
-        }
-
-        .muscle-fiber:nth-child(3) {
-            animation-delay: 0.15s;
-        }
-
-        .muscle-fiber:nth-child(4) {
-            animation-delay: 0.2s;
-        }
-
-        .muscle-fiber:nth-child(5) {
-            animation-delay: 0.15s;
-        }
-
-        .muscle-fiber:nth-child(6) {
-            animation-delay: 0.1s;
-        }
-
-        .muscle-fiber:nth-child(7) {
-            animation-delay: 0s;
-        }
-
-        .muscle-fiber:nth-child(1)::before,
-        .muscle-fiber:nth-child(7)::before {
-            animation-delay: 0s;
-        }
-
-        .muscle-fiber:nth-child(2)::before,
-        .muscle-fiber:nth-child(6)::before {
-            animation-delay: 0.1s;
-        }
-
-        .muscle-fiber:nth-child(3)::before,
-        .muscle-fiber:nth-child(5)::before {
-            animation-delay: 0.15s;
-        }
-
-        .muscle-fiber:nth-child(4)::before {
-            animation-delay: 0.2s;
-        }
-
-        @keyframes muscleContract {
-
-            0%,
-            100% {
-                transform: scaleX(1);
-            }
-
-            50% {
-                transform: scaleX(0.75);
-            }
-        }
-
-        @keyframes musclePulse {
-
-            0%,
-            100% {
-                opacity: 0.3;
-                filter: blur(0px);
-            }
-
-            50% {
-                opacity: 0.8;
-                filter: blur(1px);
-            }
-        }
-
-        /* Labels */
-        .muscle-labels {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-        }
-
-        .muscle-label {
-            position: absolute;
-            font-size: 0.6rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.35);
-            opacity: 0;
-            transition: opacity 0.6s ease 0.3s;
-        }
-
-        .muscle-visualization.active .muscle-label {
-            opacity: 1;
-        }
-
-        .muscle-label.label-fiber {
-            top: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .muscle-label.label-tendon-left {
-            bottom: 10px;
-            left: 5%;
-        }
-
-        .muscle-label.label-tendon-right {
-            bottom: 10px;
-            right: 5%;
-        }
-
-        /* Outer glow container */
-        .muscle-glow {
-            position: absolute;
-            inset: -20px;
-            background: radial-gradient(ellipse at center, rgba(200, 140, 120, 0.08) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 1s ease;
-            pointer-events: none;
-        }
-
-        .muscle-visualization.active .muscle-glow {
-            opacity: 1;
-            animation: glowBreath 2.5s ease-in-out infinite;
-        }
-
-        @keyframes glowBreath {
-
-            0%,
-            100% {
-                opacity: 0.5;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-        }
-
-        @media (max-width: 900px) {
-            .muscle-visualization {
-                height: 200px;
-                margin: 2em 0;
-            }
-
-            .muscle-fiber {
-                height: 8px;
-            }
-        }
-
         .building-work {
             position: relative;
         }
-
 
         .building-work-label {
             font-size: 0.65rem;
@@ -1452,28 +1193,35 @@
 
     <!-- OPENING -->
     <section class="opening">
-        <h1 class="opening-text">Hands are the most precious gift to a person.</h1>
+        <h1 class="opening-text">Your body is the most precious instrument you will ever own.</h1>
         <div class="opening-scroll">
             <span>Scroll</span>
             <div class="scroll-line"></div>
         </div>
     </section>
 
-    <!-- THE LOSS -->
+    <!-- THE BODY -->
     <section class="section loss">
         <div class="section-with-image">
             <div class="loss-content">
-                <p class="reveal stagger-1">Imagine someone who has spent decades doing everything with their hands.
-                    Every
-                    tender gesture, every careful task, every creative expression depended on their hands.</p>
-                <p class="reveal stagger-2">They learned to write with them. They learned to <strong>love and
-                        create</strong> with them.</p>
-                <p class="loss-moment reveal stagger-3">Then in an instant, it's gone.</p>
+                <p class="reveal stagger-1">For decades, it learns how to move through the world. Every careful task.
+                    Every instinctive gesture. Every moment of creation, affection, and independence is written into
+                    muscle and memory.</p>
+                <p class="reveal stagger-2">You learn to <strong>write</strong> with it.</p>
+                <p class="reveal stagger-3">You learn to <strong>build</strong> with it.</p>
+                <p class="reveal stagger-4">You learn to <strong>hold the people you love.</strong></p>
             </div>
             <div class="section-image" id="violinImage">
                 <img src="images/violin.jpeg" alt="Hands playing violin" class="dissolve-image">
                 <p class="section-image-caption">The art of expression</p>
             </div>
+        </div>
+    </section>
+
+    <!-- THE LOSS -->
+    <section class="section vision">
+        <div class="vision-content">
+            <p class="loss-moment reveal">Then, in an instant, something is taken away.</p>
         </div>
     </section>
 
@@ -1485,104 +1233,35 @@
                 <p class="section-image-caption">Every touch matters</p>
             </div>
             <div class="problem-content">
-                <p class="reveal stagger-1">And what does the world offer to them?</p>
-                <p class="reveal stagger-2"><span class="problem-highlight">A mechanical device that makes noise and
-                        feels
-                        bulky.</span> The experience is like using a typewriter after a lifetime with a laptop.</p>
-                <p class="reveal stagger-3">We believe it is time to offer something people can truly adapt to.
-                    Something
-                    that remembers what it means to be human.</p>
+                <p class="reveal stagger-1">And what does the world offer in return?</p>
+                <p class="reveal stagger-2"><span class="problem-highlight">Too often a rigid machine.</span> Something
+                    noisy. Something heavy. Something that reminds you every time you use it that it is not part of you.
+                </p>
+                <p class="reveal stagger-3">We believe that is not good enough.</p>
                 <span class="better-way reveal stagger-4">There is a better way.</span>
             </div>
         </div>
     </section>
 
-    <!-- THE VISION -->
-    <section class="section vision">
-        <div class="vision-content">
-            <p class="reveal stagger-1">We are working to build bionics that feel so natural, you will forget you lost a
-                body part.</p>
-            <p class="reveal stagger-2">Our work is about creating things that do not exist yet, always searching for
-                new solutions and learning from each step.</p>
-            <p class="reveal stagger-3">We are developing technology to make human limbs and even humanoids possible.
-                The same vision guides both efforts.</p>
-            <p class="vision-statement reveal stagger-4">Movement should feel natural, intuitive, and alive.</p>
-        </div>
-    </section>
-
-    <!-- THE HUMAN MOMENTS -->
-    <section class="section moments">
-        <div class="moments-content">
-            <p class="moments-list reveal">
-                <span class="moment-item">Holding a loved one.</span>
-                <span class="moment-item">Eating without help.</span>
-                <span class="moment-item">Dressing yourself.</span>
-                <span class="moment-item">Touching your face without thinking.</span>
-            </p>
-            <p class="moments-text reveal stagger-2">These experiences are not just special moments. <strong>This is
-                    life.</strong> It is an extension of you that never feels separate from who you are.</p>
-        </div>
-    </section>
-
-    <!-- THE PROMISE -->
-    <section class="promise-section">
-        <div class="promise-content">
-            <p class="promise-intro reveal">We want to give you back your life and we're working on it.</p>
-            <p class="promise-statement reveal stagger-2">This is our promise.</p>
-        </div>
-    </section>
-
-    <!-- HOW WE'RE BUILDING THIS -->
+    <!-- THE APPROACH -->
     <section class="building">
         <div class="building-header reveal">
             <span class="building-label">Our Approach</span>
-            <h2 class="building-title">How We're Building This</h2>
+            <h2 class="building-title">We are building bionics meant to disappear.</h2>
         </div>
 
         <div class="building-grid">
             <div class="building-philosophy">
-                <p class="reveal stagger-1">Recreating the human hand is not a mechanical problem alone—it is a
-                    biological one.</p>
+                <p class="reveal stagger-1">Not because they are invisible—but because they feel natural. Systems
+                    designed so the boundary between person and device fades.</p>
 
-                <p class="reveal stagger-2">Muscles, tendons, nerves, and joints work together in layered systems that
-                    evolved for dexterity, compliance, and endurance. Traditional prosthetics often replace this
-                    complexity with rigid motors and linkages. They restore function, but not fluency.</p>
+                <p class="building-emphasis reveal stagger-2">Our work begins with biology.</p>
 
-                <p class="building-emphasis reveal stagger-3">Our approach begins at the level of anatomy.</p>
+                <p class="reveal stagger-3">We study how the human body actually moves. How muscles coordinate. How
+                    tendons route force. How joints cooperate to create fluid motion.</p>
 
-                <p class="reveal stagger-4">We are researching <strong>artificial muscle systems</strong> that replicate
-                    how biological muscle contracts—focusing on compliant actuation, variable stiffness, and
-                    tendon-driven architectures rather than rigid rotary joints alone.</p>
-
-                <p class="reveal stagger-5">Instead of treating a limb as a single mechanism, we are mapping muscle
-                    groups, joint degrees of freedom, and force transmission pathways, then designing synthetic
-                    analogues that preserve those relationships.</p>
-
-                <!-- Muscle Fiber Visualization -->
-                <div class="muscle-visualization" id="muscleViz">
-                    <div class="muscle-glow"></div>
-                    <div class="muscle-fiber-container">
-                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
-                        </div>
-                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
-                        </div>
-                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
-                        </div>
-                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
-                        </div>
-                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
-                        </div>
-                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
-                        </div>
-                        <div class="muscle-fiber"><span class="tendon-left"></span><span class="tendon-right"></span>
-                        </div>
-                    </div>
-                    <div class="muscle-labels">
-                        <span class="muscle-label label-fiber">Muscle Fibers</span>
-                        <span class="muscle-label label-tendon-left">Tendon</span>
-                        <span class="muscle-label label-tendon-right">Tendon</span>
-                    </div>
-                </div>
+                <p class="reveal stagger-4">Then we design synthetic systems that follow those same principles—rather
+                    than forcing the body to adapt to machines.</p>
             </div>
 
             <div class="building-work reveal">
@@ -1596,17 +1275,34 @@
                 </ul>
 
                 <div class="building-goal reveal stagger-2">
-                    <p>Our long-term goal is to integrate <strong>sensing, control systems, and compliant
-                            actuation</strong> so that prosthetic limbs respond intuitively—adapting to the user rather
-                        than forcing the user to adapt to the device.</p>
+                    <p>The same vision guides both <strong>prosthetics and humanoid systems</strong>. Movement should
+                        feel intuitive. Responsive. Alive.</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="building-coda reveal">
-            <p>We are still early in this journey. What exists today are concepts, models, and experimental prototypes.
-                But every iteration is guided by the same constraint: <em>if it doesn't feel human, it isn't
-                    finished.</em></p>
+    <!-- THE HUMAN MOMENTS -->
+    <section class="section moments">
+        <div class="moments-content">
+            <p class="moments-list reveal">
+                <span class="moment-item">Holding a loved one.</span>
+                <span class="moment-item">Eating without help.</span>
+                <span class="moment-item">Dressing yourself.</span>
+                <span class="moment-item">Touching your face without thinking.</span>
+            </p>
+            <p class="moments-text reveal stagger-2">These are not small things.</p>
+            <p class="moments-text reveal stagger-3"><strong>This is life in motion.</strong></p>
+            <p class="moments-text reveal stagger-4">This is what it means for technology to belong to you—instead of
+                the other way around.</p>
+        </div>
+    </section>
+
+    <!-- THE PROMISE -->
+    <section class="promise-section">
+        <div class="promise-content">
+            <p class="promise-intro reveal">We are working to give that back.</p>
+            <p class="promise-statement reveal stagger-2">This is our promise.</p>
         </div>
     </section>
 
@@ -1815,20 +1511,6 @@
             }, { threshold: 0.3 });
 
             buildingObserver.observe(buildingList);
-        }
-
-        // Muscle Fiber Visualization Animation
-        const muscleViz = document.getElementById('muscleViz');
-        if (muscleViz) {
-            const muscleObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        muscleViz.classList.add('active');
-                    }
-                });
-            }, { threshold: 0.4 });
-
-            muscleObserver.observe(muscleViz);
         }
     </script>
 </body>
