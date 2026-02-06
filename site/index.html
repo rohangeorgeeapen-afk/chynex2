@@ -279,6 +279,34 @@
             overflow: hidden;
         }
 
+        /* Pinned Section Logic */
+        .pinned-section {
+            min-height: 180vh;
+            position: relative;
+            padding: 0;
+            overflow: visible;
+        }
+
+        .pinned-content {
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 12vh 8vw;
+        }
+
+        /* Override default section margin/padding for pinned variations */
+        .loss.pinned-section,
+        .vision.pinned-section,
+        .problem.pinned-section,
+        .moments.pinned-section {
+            margin-bottom: 0px;
+        }
+
         .reveal {
             opacity: 0;
             transform: translateY(80px);
@@ -1300,68 +1328,79 @@
     </section>
 
     <!-- THE BODY -->
-    <section class="section loss">
-        <div class="section-with-image">
-            <div class="loss-content">
-                <p class="reveal stagger-1">For decades, it learns how to move through the world. Every careful task.
-                    Every instinctive gesture. Every moment of creation, affection, and independence is written into
-                    muscle and memory.</p>
-                <p class="reveal stagger-2">You learn to <strong>write</strong> with it.</p>
-                <p class="reveal stagger-3">You learn to <strong>build</strong> with it.</p>
-                <p class="reveal stagger-4">You learn to <strong>hold</strong> the people you love.</p>
-            </div>
-            <div class="section-image" id="violinImage">
-                <img src="images/violin.jpeg" alt="Hands playing violin" class="dissolve-image">
-                <p class="section-image-caption">The art of expression</p>
+    <section class="section loss pinned-section">
+        <div class="pinned-content">
+            <div class="section-with-image">
+                <div class="loss-content">
+                    <p class="reveal stagger-1">For decades, it learns how to move through the world. Every careful
+                        task.
+                        Every instinctive gesture. Every moment of creation, affection, and independence is written into
+                        muscle and memory.</p>
+                    <p class="reveal stagger-2">You learn to <strong>write</strong> with it.</p>
+                    <p class="reveal stagger-3">You learn to <strong>build</strong> with it.</p>
+                    <p class="reveal stagger-4">You learn to <strong>hold</strong> the people you love.</p>
+                </div>
+                <div class="section-image" id="violinImage">
+                    <img src="images/violin.jpeg" alt="Hands playing violin" class="dissolve-image">
+                    <p class="section-image-caption">The art of expression</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- THE LOSS -->
-    <section class="section vision">
-        <div class="vision-content">
-            <p class="loss-moment">
-                <span class="loss-word">Then,</span>
-                <span class="loss-word">in</span>
-                <span class="loss-word">an</span>
-                <span class="loss-word">instant,</span>
-                <span class="loss-word">something</span>
-                <span class="loss-word">is</span>
-                <span class="loss-word loss-emphasis">taken away.</span>
-            </p>
+    <section class="section vision pinned-section">
+        <div class="pinned-content">
+            <div class="vision-content">
+                <p class="loss-moment">
+                    <span class="loss-word">Then,</span>
+                    <span class="loss-word">in</span>
+                    <span class="loss-word">an</span>
+                    <span class="loss-word">instant,</span>
+                    <span class="loss-word">something</span>
+                    <span class="loss-word">is</span>
+                    <span class="loss-word loss-emphasis">taken away.</span>
+                </p>
+            </div>
         </div>
     </section>
 
     <!-- THE PROBLEM -->
-    <section class="section problem">
-        <div class="problem-content" style="text-align: center; max-width: 650px; margin: 0 auto;">
-            <p class="reveal stagger-1">And what does the world offer in return?</p>
-            <p class="reveal stagger-2"><span class="problem-highlight">Too often a rigid machine.</span> Something
-                noisy. Something heavy. Something that reminds you every time you use it that it is not part of you.</p>
-            <p class="reveal stagger-3">We believe that is not good enough.</p>
-            <span class="better-way reveal stagger-4">There is a better way.</span>
+    <section class="section problem pinned-section">
+        <div class="pinned-content">
+            <div class="problem-content" style="text-align: center; max-width: 650px; margin: 0 auto;">
+                <p class="reveal stagger-1">And what does the world offer in return?</p>
+                <p class="reveal stagger-2"><span class="problem-highlight">Too often a rigid machine.</span> Something
+                    noisy. Something heavy. Something that reminds you every time you use it that it is not part of you.
+                </p>
+                <p class="reveal stagger-3">We believe that is not good enough.</p>
+                <span class="better-way reveal stagger-4">There is a better way.</span>
+            </div>
         </div>
     </section>
 
     <!-- THE HUMAN MOMENTS -->
-    <section class="section moments">
-        <div class="moments-content">
-            <p class="moments-list reveal">
-                <span class="moment-item">Holding a loved one.</span>
-                <span class="moment-item">Eating without help.</span>
-                <span class="moment-item">Dressing yourself.</span>
-                <span class="moment-item">Touching your face without thinking.</span>
-            </p>
-            <p class="moments-text reveal stagger-2">These are not small things.</p>
-            <p class="moments-text reveal stagger-3"><strong>This is life in motion.</strong></p>
+    <section class="section moments pinned-section">
+        <div class="pinned-content">
+            <div class="moments-content">
+                <p class="moments-list reveal">
+                    <span class="moment-item">Holding a loved one.</span>
+                    <span class="moment-item">Eating without help.</span>
+                    <span class="moment-item">Dressing yourself.</span>
+                    <span class="moment-item">Touching your face without thinking.</span>
+                </p>
+                <p class="moments-text reveal stagger-2">These are not small things.</p>
+                <p class="moments-text reveal stagger-3"><strong>This is life in motion.</strong></p>
 
-            <div class="section-image reveal stagger-4" id="pianoImage" style="margin: 3em auto; max-width: 320px;">
-                <img src="images/piano.jpeg" alt="Hands playing piano" class="dissolve-image">
-                <p class="section-image-caption">Every touch matters</p>
+                <div class="section-image reveal stagger-4" id="pianoImage" style="margin: 3em auto; max-width: 320px;">
+                    <img src="images/piano.jpeg" alt="Hands playing piano" class="dissolve-image">
+                    <p class="section-image-caption">Every touch matters</p>
+                </div>
+
+                <p class="moments-text reveal stagger-5">This is what it means for technology to belong to you—instead
+                    of
+                    the other way around.</p>
             </div>
-
-            <p class="moments-text reveal stagger-5">This is what it means for technology to belong to you—instead of
-                the other way around.</p>
         </div>
     </section>
 
