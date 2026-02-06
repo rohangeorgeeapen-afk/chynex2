@@ -182,9 +182,28 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             max-width: 800px;
+            opacity: 1;
+            /* Make visible for word anim content */
+            transform: none;
+            /* Reset transform for word anim */
+        }
+
+        .page-title .word {
+            display: inline-block;
             opacity: 0;
-            transform: translateY(30px);
-            animation: headerFadeIn 1s ease 0.4s forwards;
+            transform: translateY(40px);
+            animation: wordReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes wordReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes headerFadeIn {
@@ -873,6 +892,7 @@
             cursorDot.style.top = mouseY + 'px';
         });
 
+        // Initial Cursor Animation
         function animateCursor() {
             cursorX += (mouseX - cursorX) * 0.15;
             cursorY += (mouseY - cursorY) * 0.15;
@@ -881,6 +901,16 @@
             requestAnimationFrame(animateCursor);
         }
         animateCursor();
+
+        // Header Title Word Animation
+        const pageTitle = document.querySelector('.page-title');
+        if (pageTitle) {
+            const text = pageTitle.textContent;
+            const words = text.split(' ');
+            pageTitle.innerHTML = words.map((word, i) =>
+                `<span class="word" style="animation-delay: ${0.2 + i * 0.08}s">${word}</span>`
+            ).join(' ');
+        }
 
         // Cursor hover effect on links
         document.querySelectorAll('a, button').forEach(el => {
