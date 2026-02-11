@@ -265,12 +265,43 @@
             opacity: 0;
             transform: translateY(80px);
             transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: blur(8px);
         }
 
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
+            filter: blur(0px);
+        }
+
+        /* Scale-in reveal variant */
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.85);
+            filter: blur(6px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0px);
+        }
+
+        /* Scroll-driven fade-out for sections you've scrolled past */
+        .section.scrolled-past {
+            opacity: 0.15;
+            transform: translateY(-30px) scale(0.97);
+            filter: blur(3px);
+            transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease;
+        }
+
+        .section {
+            transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease;
         }
 
         .stagger-1 {
@@ -291,6 +322,110 @@
 
         .stagger-5 {
             transition-delay: 0.5s;
+        }
+
+        /* =============================================
+           HORIZONTAL MARQUEE DIVIDERS
+           ============================================= */
+        .marquee-divider {
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 2.5vh 0;
+            position: relative;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .marquee-track {
+            display: inline-flex;
+            animation: marqueeScroll 30s linear infinite;
+            will-change: transform;
+        }
+
+        .marquee-track span {
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.12);
+            padding: 0 3em;
+            flex-shrink: 0;
+        }
+
+        .marquee-track span::after {
+            content: '◆';
+            margin-left: 3em;
+            font-size: 0.4em;
+            vertical-align: middle;
+            opacity: 0.5;
+        }
+
+        @keyframes marqueeScroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* =============================================
+           MAGNETIC HOVER EFFECT
+           ============================================= */
+        .magnetic-hover {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        /* =============================================
+           PARALLAX SECTION SEPARATORS
+           ============================================= */
+        .section-separator {
+            height: 1px;
+            position: relative;
+            overflow: hidden;
+            margin: 0 8vw;
+        }
+
+        .section-separator::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 300%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.06) 25%,
+                    rgba(255, 255, 255, 0.15) 50%,
+                    rgba(255, 255, 255, 0.06) 75%,
+                    transparent 100%);
+            animation: separatorShimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes separatorShimmer {
+            0% {
+                transform: translateX(-33%);
+            }
+
+            100% {
+                transform: translateX(33%);
+            }
+        }
+
+        /* =============================================
+           FOOTER CHARACTER ANIMATION
+           ============================================= */
+        .footer-char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) rotateX(90deg);
+            transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .footer-char.active {
+            opacity: 1;
+            transform: translateY(0) rotateX(0deg);
         }
 
         /* Building Section */
@@ -422,6 +557,15 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s ease;
+            will-change: transform;
+        }
+
+        .building-goal:hover {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
+                0 0 40px rgba(255, 255, 255, 0.03);
         }
 
         .building-goal p {
@@ -833,9 +977,18 @@
                 transition: none !important;
             }
 
-            .reveal {
+            .reveal,
+            .reveal-scale,
+            .footer-char {
                 opacity: 1;
                 transform: none;
+                filter: none;
+            }
+
+            .section.scrolled-past {
+                opacity: 1;
+                transform: none;
+                filter: none;
             }
         }
     </style>
@@ -906,6 +1059,9 @@
         </div>
     </section>
 
+    <!-- SECTION SEPARATOR -->
+    <div class="section-separator"></div>
+
     <!-- OUR STAGE -->
     <section class="stage">
         <div class="stage-content">
@@ -920,13 +1076,16 @@
         </div>
     </section>
 
+    <!-- SECTION SEPARATOR -->
+    <div class="section-separator"></div>
+
     <!-- JOIN US -->
     <section class="join">
         <div class="join-content">
-            <h2 class="join-title reveal">Join the Mission</h2>
+            <h2 class="join-title reveal-scale">Join the Mission</h2>
             <p class="join-text reveal stagger-1">We're looking for researchers, engineers, and dreamers who believe the
                 body deserves better. If you want to build something that matters, let's talk.</p>
-            <a href="mailto:rohan@chynex.com" class="join-cta reveal stagger-2">Get in Touch →</a>
+            <a href="mailto:rohan@chynex.com" class="join-cta reveal stagger-2 magnetic-hover">Get in Touch →</a>
         </div>
     </section>
 
@@ -958,7 +1117,9 @@
     </footer>
 
     <script>
-        // Custom Cursor
+        // =============================================
+        // CUSTOM CURSOR
+        // =============================================
         const cursor = document.querySelector('.cursor');
         const cursorDot = document.querySelector('.cursor-dot');
 
@@ -972,7 +1133,6 @@
             cursorDot.style.top = mouseY + 'px';
         });
 
-        // Initial Cursor Animation
         function animateCursor() {
             cursorX += (mouseX - cursorX) * 0.15;
             cursorY += (mouseY - cursorY) * 0.15;
@@ -998,7 +1158,9 @@
             el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
         });
 
-        // Progress Bar
+        // =============================================
+        // PROGRESS BAR
+        // =============================================
         const progressBar = document.querySelector('.progress-bar');
 
         function updateProgress() {
@@ -1010,8 +1172,10 @@
 
         window.addEventListener('scroll', updateProgress, { passive: true });
 
-        // Scroll Reveal
-        const reveals = document.querySelectorAll('.reveal');
+        // =============================================
+        // SCROLL REVEAL (blur + fade up)
+        // =============================================
+        const reveals = document.querySelectorAll('.reveal, .reveal-scale');
 
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1021,12 +1185,37 @@
             });
         }, {
             threshold: 0.15,
-            rootMargin: '0px 0px -100px 0px'
+            rootMargin: '0px 0px -80px 0px'
         });
 
         reveals.forEach(el => revealObserver.observe(el));
 
-        // Wave Scroll Interaction
+        // =============================================
+        // SCROLL-DRIVEN SECTION FADE-OUT
+        // =============================================
+        const allSections = document.querySelectorAll('.section, .building, .stage');
+
+        function updateSectionFade() {
+            const viewportH = window.innerHeight;
+
+            allSections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+
+                if (rect.bottom < viewportH * 0.15 && rect.top < 0) {
+                    section.classList.add('scrolled-past');
+                } else {
+                    section.classList.remove('scrolled-past');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(updateSectionFade);
+        }, { passive: true });
+
+        // =============================================
+        // WAVE SCROLL INTERACTION
+        // =============================================
         const waveBg = document.getElementById('waveBg');
 
         function updateWaveScroll() {
@@ -1040,6 +1229,85 @@
         window.addEventListener('scroll', () => {
             requestAnimationFrame(updateWaveScroll);
         }, { passive: true });
+
+        // =============================================
+        // MAGNETIC HOVER EFFECT
+        // =============================================
+        document.querySelectorAll('.magnetic-hover').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                el.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // =============================================
+        // 3D TILT ON HOVER (building-goal cards)
+        // =============================================
+        document.querySelectorAll('.building-goal').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width;
+                const y = (e.clientY - rect.top) / rect.height;
+                const tiltX = (y - 0.5) * 15;
+                const tiltY = (x - 0.5) * -15;
+                card.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+
+        // =============================================
+        // FOOTER CHARACTER ANIMATION
+        // =============================================
+        const footerName = document.querySelector('.footer-name');
+        if (footerName) {
+            const nameText = footerName.textContent;
+            footerName.innerHTML = nameText.split('').map((char, i) =>
+                char === ' '
+                    ? ' '
+                    : `<span class="footer-char" style="transition-delay: ${i * 0.04}s">${char}</span>`
+            ).join('');
+
+            const footerCharObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.querySelectorAll('.footer-char').forEach(c => c.classList.add('active'));
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            footerCharObserver.observe(footerName);
+        }
+
+        // =============================================
+        // PARALLAX ON MARQUEE DIVIDERS
+        // =============================================
+        let lastScrollY = window.scrollY;
+        let marqueeVelocity = 0;
+        const marqueeTracks = document.querySelectorAll('.marquee-track');
+
+        function updateMarqueeVelocity() {
+            const newScrollY = window.scrollY;
+            const vel = Math.abs(newScrollY - lastScrollY);
+            marqueeVelocity += (vel - marqueeVelocity) * 0.1;
+            lastScrollY = newScrollY;
+
+            marqueeTracks.forEach(track => {
+                const speedMultiplier = 1 + marqueeVelocity * 0.15;
+                track.style.animationDuration = Math.max(8, 30 / speedMultiplier) + 's';
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(updateMarqueeVelocity);
+        }, { passive: true });
+
     </script>
 </body>
 

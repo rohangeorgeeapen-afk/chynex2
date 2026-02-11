@@ -303,12 +303,31 @@
             opacity: 0;
             transform: translateY(80px);
             transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: blur(8px);
         }
 
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
+            filter: blur(0px);
+        }
+
+        /* Scale-in reveal variant */
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.85);
+            filter: blur(6px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0px);
         }
 
         .reveal-line {
@@ -320,6 +339,18 @@
         .reveal-line.active {
             opacity: 1;
             transform: translateX(0);
+        }
+
+        /* Scroll-driven fade-out for sections you've scrolled past */
+        .section.scrolled-past {
+            opacity: 0.15;
+            transform: translateY(-30px) scale(0.97);
+            filter: blur(3px);
+            transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease;
+        }
+
+        .section {
+            transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease;
         }
 
         /* Staggered delays for multiple elements */
@@ -341,6 +372,147 @@
 
         .stagger-5 {
             transition-delay: 0.5s;
+        }
+
+        /* =============================================
+           HORIZONTAL MARQUEE DIVIDERS
+           ============================================= */
+        .marquee-divider {
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 2.5vh 0;
+            position: relative;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .marquee-track {
+            display: inline-flex;
+            animation: marqueeScroll 30s linear infinite;
+            will-change: transform;
+        }
+
+        .marquee-track span {
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.12);
+            padding: 0 3em;
+            flex-shrink: 0;
+        }
+
+        .marquee-track span::after {
+            content: '◆';
+            margin-left: 3em;
+            font-size: 0.4em;
+            vertical-align: middle;
+            opacity: 0.5;
+        }
+
+        @keyframes marqueeScroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* =============================================
+           MAGNETIC HOVER EFFECT (applied via JS)
+           ============================================= */
+        .magnetic-hover {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        /* =============================================
+           3D TILT ON HOVER CARDS
+           ============================================= */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s ease;
+            will-change: transform;
+        }
+
+        .tilt-card:hover {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
+                0 0 40px rgba(255, 255, 255, 0.03);
+        }
+
+        /* =============================================
+           PARALLAX SECTION SEPARATORS
+           ============================================= */
+        .section-separator {
+            height: 1px;
+            position: relative;
+            overflow: hidden;
+            margin: 0 8vw;
+        }
+
+        .section-separator::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 300%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.06) 25%,
+                    rgba(255, 255, 255, 0.15) 50%,
+                    rgba(255, 255, 255, 0.06) 75%,
+                    transparent 100%);
+            animation: separatorShimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes separatorShimmer {
+            0% {
+                transform: translateX(-33%);
+            }
+
+            100% {
+                transform: translateX(33%);
+            }
+        }
+
+        /* =============================================
+           SCROLL-DRIVEN GRADIENT SHIFT
+           ============================================= */
+        .gradient-shift {
+            background-size: 200% 200%;
+            animation: gradientMove 6s ease-in-out infinite;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* =============================================
+           FOOTER CHARACTER ANIMATION
+           ============================================= */
+        .footer-char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) rotateX(90deg);
+            transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .footer-char.active {
+            opacity: 1;
+            transform: translateY(0) rotateX(0deg);
         }
 
         /* Side Image with Dissolve Effect */
@@ -649,10 +821,12 @@
             font-weight: 600;
             display: block;
             margin-top: 1.5em !important;
-            background: linear-gradient(90deg, #888, #fff);
+            background: linear-gradient(90deg, #555, #fff, #555);
+            background-size: 200% 100%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: gradientMove 4s ease-in-out infinite;
         }
 
         /* =============================================
@@ -802,10 +976,12 @@
             font-weight: 700;
             letter-spacing: -0.03em;
             line-height: 1.1;
-            background: linear-gradient(180deg, #fff 0%, #888 100%);
+            background: linear-gradient(135deg, #555, #fff, #aaa, #fff);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: gradientMove 6s ease-in-out infinite;
         }
 
         /* =============================================
@@ -949,6 +1125,15 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s ease;
+            will-change: transform;
+        }
+
+        .building-goal:hover {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
+                0 0 40px rgba(255, 255, 255, 0.03);
         }
 
         .building-goal p {
@@ -1320,9 +1505,18 @@
             }
 
             .reveal,
-            .reveal-line {
+            .reveal-line,
+            .reveal-scale,
+            .footer-char {
                 opacity: 1;
                 transform: none;
+                filter: none;
+            }
+
+            .section.scrolled-past {
+                opacity: 1;
+                transform: none;
+                filter: none;
             }
         }
     </style>
@@ -1372,6 +1566,9 @@
         </div>
     </section>
 
+    <!-- SECTION SEPARATOR -->
+    <div class="section-separator"></div>
+
     <!-- THE BODY -->
     <section class="section loss">
         <div class="section-with-image">
@@ -1405,6 +1602,9 @@
         </div>
     </section>
 
+    <!-- SECTION SEPARATOR -->
+    <div class="section-separator"></div>
+
     <!-- THE PROBLEM -->
     <section class="section problem">
         <div class="problem-content" style="text-align: center; max-width: 650px; margin: 0 auto;">
@@ -1415,6 +1615,9 @@
             <span class="better-way reveal stagger-4">There is a better way.</span>
         </div>
     </section>
+
+    <!-- SECTION SEPARATOR -->
+    <div class="section-separator"></div>
 
     <!-- THE HUMAN MOMENTS -->
     <section class="section moments">
@@ -1438,11 +1641,14 @@
         </div>
     </section>
 
+    <!-- SECTION SEPARATOR -->
+    <div class="section-separator"></div>
+
     <!-- THE PROMISE -->
     <section class="promise-section">
         <div class="promise-content">
-            <p class="promise-intro reveal">We are working to give that back.</p>
-            <p class="promise-statement reveal stagger-2">This is our promise.</p>
+            <p class="promise-intro reveal-scale">We are working to give that back.</p>
+            <p class="promise-statement reveal-scale stagger-2">This is our promise.</p>
         </div>
     </section>
 
@@ -1454,7 +1660,7 @@
                 <span class="pronunciation">/ˈkaɪ.nɛks/</span>
             </div>
             <div class="footer-cta">
-                <a href="research.html" class="footer-cta-btn">Explore Our Research →</a>
+                <a href="research.html" class="footer-cta-btn magnetic-hover">Explore Our Research →</a>
             </div>
             <div class="footer-info">
                 <div class="footer-identity">
@@ -1473,7 +1679,9 @@
     </footer>
 
     <script>
-        // Custom Cursor
+        // =============================================
+        // CUSTOM CURSOR
+        // =============================================
         const cursor = document.querySelector('.cursor');
         const cursorDot = document.querySelector('.cursor-dot');
 
@@ -1502,7 +1710,9 @@
             el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
         });
 
-        // Progress Bar
+        // =============================================
+        // PROGRESS BAR
+        // =============================================
         const progressBar = document.querySelector('.progress-bar');
 
         function updateProgress() {
@@ -1514,8 +1724,10 @@
 
         window.addEventListener('scroll', updateProgress, { passive: true });
 
-        // Scroll Reveal
-        const reveals = document.querySelectorAll('.reveal, .reveal-line, .loss-moment');
+        // =============================================
+        // SCROLL REVEAL (blur + fade up)
+        // =============================================
+        const reveals = document.querySelectorAll('.reveal, .reveal-line, .loss-moment, .reveal-scale');
 
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1525,12 +1737,42 @@
             });
         }, {
             threshold: 0.15,
-            rootMargin: '0px 0px -100px 0px'
+            rootMargin: '0px 0px -80px 0px'
         });
 
         reveals.forEach(el => revealObserver.observe(el));
 
-        // Moment items highlight on scroll
+        // =============================================
+        // SCROLL-DRIVEN SECTION FADE-OUT
+        // Sections fade out as you scroll past them
+        // =============================================
+        const allSections = document.querySelectorAll('.section');
+
+        function updateSectionFade() {
+            const scrollY = window.scrollY;
+            const viewportH = window.innerHeight;
+
+            allSections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                const sectionBottom = rect.bottom;
+                const sectionTop = rect.top;
+
+                // If section bottom is above 15% of viewport, fade it out
+                if (sectionBottom < viewportH * 0.15 && sectionTop < 0) {
+                    section.classList.add('scrolled-past');
+                } else {
+                    section.classList.remove('scrolled-past');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(updateSectionFade);
+        }, { passive: true });
+
+        // =============================================
+        // MOMENT ITEMS HIGHLIGHT
+        // =============================================
         const momentItems = document.querySelectorAll('.moment-item');
         const momentsSection = document.querySelector('.moments');
 
@@ -1546,9 +1788,11 @@
             });
         }, { threshold: 0.5 });
 
-        momentObserver.observe(momentsSection);
+        if (momentsSection) momentObserver.observe(momentsSection);
 
-        // Hero text word animation
+        // =============================================
+        // HERO TEXT WORD ANIMATION
+        // =============================================
         const heroText = document.querySelector('.opening-text');
         if (heroText) {
             const text = heroText.textContent;
@@ -1558,16 +1802,16 @@
             ).join(' ');
         }
 
-        // Wave Scroll Interaction
+        // =============================================
+        // WAVE SCROLL INTERACTION
+        // =============================================
         const waveBg = document.getElementById('waveBg');
 
         function updateWaveScroll() {
             const scrollY = window.scrollY;
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrollPercent = scrollY / docHeight;
-
-            // Shift waves vertically based on scroll
-            const yShift = scrollPercent * 30; // Max 30% vertical shift
+            const yShift = scrollPercent * 30;
             waveBg.style.transform = `translateY(${yShift}%)`;
         }
 
@@ -1575,11 +1819,12 @@
             requestAnimationFrame(updateWaveScroll);
         }, { passive: true });
 
-        // Fluid Distortion on Scroll
+        // =============================================
+        // FLUID DISTORTION ON SCROLL
+        // =============================================
         const displacementMap = document.querySelector('#displacement');
         const fluidImages = document.querySelectorAll('.dissolve-image');
 
-        // Physics variables
         let lastScrollY = window.scrollY;
         let currentScrollY = window.scrollY;
         let skew = 0;
@@ -1587,34 +1832,23 @@
 
         function updateLiquidEffect() {
             currentScrollY = window.scrollY;
-
-            // Calculate velocity
             const velocity = currentScrollY - lastScrollY;
 
-            // Smoothly interpolate skew/distortion based on velocity
-            // We dampen the velocity to make it feel "heavy"
             skew = velocity * 0.15;
-
-            // Distortion intensity (more aggressive)
             const targetDistortion = Math.abs(velocity) * 2;
             distortion = distortion + (targetDistortion - distortion) * 0.1;
-
-            // Clamping max distortion
             distortion = Math.min(distortion, 80);
 
-            // Apply filter intensity
             if (displacementMap) {
                 displacementMap.scale.baseVal = distortion;
             }
 
-            // Apply skew + blending opacity
             fluidImages.forEach(img => {
                 const rect = img.getBoundingClientRect();
                 const windowHeight = window.innerHeight;
                 const imgCenter = rect.top + rect.height / 2;
                 const viewportCenter = windowHeight / 2;
 
-                // Opacity fade when leaving viewport
                 const distanceFromCenter = Math.abs(imgCenter - viewportCenter) / (windowHeight / 2);
                 const visibility = Math.max(0, Math.min(1, 1 - distanceFromCenter * 0.6));
                 const opacity = 0.3 + (visibility * 0.7);
@@ -1629,7 +1863,9 @@
 
         requestAnimationFrame(updateLiquidEffect);
 
-        // Building list staggered animation
+        // =============================================
+        // BUILDING LIST STAGGER
+        // =============================================
         const buildingList = document.querySelector('.building-list');
         const buildingListItems = document.querySelectorAll('.building-list li');
 
@@ -1648,6 +1884,85 @@
 
             buildingObserver.observe(buildingList);
         }
+
+        // =============================================
+        // MAGNETIC HOVER EFFECT
+        // Elements with .magnetic-hover pull toward cursor
+        // =============================================
+        document.querySelectorAll('.magnetic-hover').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                el.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // =============================================
+        // 3D TILT ON HOVER (building-goal cards)
+        // =============================================
+        document.querySelectorAll('.building-goal, .tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width;
+                const y = (e.clientY - rect.top) / rect.height;
+                const tiltX = (y - 0.5) * 15;
+                const tiltY = (x - 0.5) * -15;
+                card.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+
+        // =============================================
+        // FOOTER CHARACTER ANIMATION
+        // Footer brand name reveals character-by-character
+        // =============================================
+        const footerName = document.querySelector('.footer-name');
+        if (footerName) {
+            const nameText = footerName.textContent;
+            footerName.innerHTML = nameText.split('').map((char, i) =>
+                char === ' '
+                    ? ' '
+                    : `<span class="footer-char" style="transition-delay: ${i * 0.04}s">${char}</span>`
+            ).join('');
+
+            const footerCharObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.querySelectorAll('.footer-char').forEach(c => c.classList.add('active'));
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            footerCharObserver.observe(footerName);
+        }
+
+        // =============================================
+        // PARALLAX ON MARQUEE DIVIDERS
+        // Marquee speed changes based on scroll velocity
+        // =============================================
+        let marqueeVelocity = 0;
+        const marqueeTracks = document.querySelectorAll('.marquee-track');
+
+        function updateMarqueeVelocity() {
+            const newScrollY = window.scrollY;
+            const vel = Math.abs(newScrollY - lastScrollY);
+            marqueeVelocity += (vel - marqueeVelocity) * 0.1;
+
+            marqueeTracks.forEach(track => {
+                const speedMultiplier = 1 + marqueeVelocity * 0.15;
+                track.style.animationDuration = Math.max(8, 30 / speedMultiplier) + 's';
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(updateMarqueeVelocity);
+        }, { passive: true });
 
 
     </script>
